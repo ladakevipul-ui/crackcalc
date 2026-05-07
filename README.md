@@ -1,2 +1,2 @@
-# crackcalc
+# CrackCalc
 CrackCalc official website
