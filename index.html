@@ -696,13 +696,49 @@ footer { position:relative; z-index:1; background:#0F172A; border-top:1px solid 
   .tools-header { margin-bottom:2.5rem; }
   .section-h2 { font-size:clamp(1.4rem,6vw,2rem) !important; white-space:normal !important; }
   .section-sub { font-size:0.82rem; }
-  .tools-grid { grid-template-columns:1fr; gap:0; }
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
   .tools-category-label { font-size:0.58rem; margin-top:0; }
-  .tool-card { padding:1.6rem 1.4rem; }
-  .tool-icon { width:42px; height:42px; font-size:1.2rem; margin-bottom:1.1rem; }
-  .tool-name { font-size:1.05rem; }
-  .tool-desc { font-size:0.78rem; }
-  .tool-cta-row { margin-top:1.1rem; }
+  .tool-card {
+    padding: 1.1rem 1.2rem;
+    border-radius: 14px !important;
+    border: 1.5px solid #E2E8F0 !important;
+    box-shadow: 0 2px 10px rgba(15,23,42,0.07);
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    grid-template-rows: auto auto auto;
+    column-gap: 0.9rem;
+    align-items: start;
+  }
+  html.dark .tool-card {
+    border-color: rgba(255,255,255,0.10) !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .tool-icon {
+    width: 44px; height: 44px; font-size: 1.2rem;
+    margin-bottom: 0;
+    grid-column: 1; grid-row: 1 / 4;
+    align-self: center;
+  }
+  .tool-name {
+    font-size: 0.93rem; margin-bottom: 0.25rem;
+    grid-column: 2; grid-row: 1;
+  }
+  .tool-desc {
+    font-size: 0.72rem; line-height: 1.5;
+    grid-column: 2; grid-row: 2;
+  }
+  .tool-cta-row {
+    margin-top: 0.5rem;
+    grid-column: 2; grid-row: 3;
+  }
+  .tool-badge { display: none; }
 
   /* MODAL */
   .modal-overlay { padding:0; align-items:flex-end; }
@@ -750,7 +786,8 @@ footer { position:relative; z-index:1; background:#0F172A; border-top:1px solid 
   .hero-h1 { font-size:2rem; }
   .section-h2 { font-size:1.3rem !important; }
   .result-grid { grid-template-columns:1fr; }
-  .tool-card { padding:1.3rem 1.1rem; }
+  .tool-card { padding:1rem 1rem; }
+  .tool-name { font-size:0.88rem; }
 }
 /* ── ADS SECTION ── */
 .ad-banner-strip {
@@ -1346,7 +1383,7 @@ html.dark .data-disclaimer { background:rgba(245,158,11,0.08); border-color:rgba
       <div class="tool-card" onclick="openModal('diTable')">
         <div class="tool-icon ti-sky">📋</div>
         <div class="tool-name">DI Table / Chart Generator</div>
-        <div class="tool-desc">Auto-generates random DI tables or bar charts with 5 questions. Pure JS — no database, infinite variety.</div>
+        <div class="tool-desc">Exam-realistic DI sets on government data — population, agriculture, railways, banking & more. Table / Bar / Pie formats with difficulty levels.</div>
         <div class="tool-cta-row">
           <span class="tool-link">Open Calculator →</span>
         </div>
@@ -2099,108 +2136,88 @@ const modals = {
 
   spacedRepetition: () => `
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-icon ti-sky">🔁</div>
+    <div class="modal-icon ti-sky">🧠</div>
     <div class="modal-title">Spaced Repetition Planner</div>
-    <div class="modal-subtitle">Enter today's study topic — get optimised revision dates based on the Ebbinghaus forgetting curve.</div>
+    <div class="modal-subtitle">Without revision, you forget <strong>70% of new material within 24 hours</strong>. This planner tells you <em>exactly</em> when to revise each topic so it sticks forever.</div>
+
     <div class="form-group">
-      <label class="form-label">Topic Studied Today</label>
-      <input type="text" class="form-input" id="sr_topic" placeholder="e.g. Percentage — SSC CGL Quant">
+      <label class="form-label">📚 Topic You Studied</label>
+      <input type="text" class="form-input" id="sr_topic" placeholder="e.g. Percentages, Polity Ch.3, Newton's Laws…">
     </div>
-    <div class="form-group">
-      <label class="form-label">Date Studied</label>
-      <input type="date" class="form-input" id="sr_date">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">📅 Date Studied</label>
+        <input type="date" class="form-input" id="sr_date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">🎯 How Well Did You Understand?</label>
+        <select class="form-select" id="sr_diff">
+          <option value="easy">😊 Got it well (Easy)</option>
+          <option value="medium" selected>🤔 Some gaps remain (Medium)</option>
+          <option value="hard">😰 Struggled a lot (Hard)</option>
+        </select>
+      </div>
     </div>
-    <div class="form-group">
-      <label class="form-label">Difficulty</label>
-      <select class="form-select" id="sr_diff">
-        <option value="easy">Easy — I knew most of it</option>
-        <option value="medium">Medium — Some gaps remain</option>
-        <option value="hard">Hard — Needs lots of revision</option>
-      </select>
-    </div>
-    <button class="calc-btn" onclick="calcSpacedRepetition()">Get Revision Schedule →</button>
+
+    <button class="calc-btn" onclick="calcSpacedRepetition()">📅 Generate My Revision Plan →</button>
+
     <div class="result-box" id="sr_result">
-      <div class="result-label">Revision Schedule for</div>
-      <div class="result-value" style="font-size:1.2rem;margin-bottom:1rem;" id="sr_topic_out">—</div>
-      <ul class="step-list" id="sr_schedule"></ul>
-      <div class="result-note" id="sr_note"></div>
+      <div class="result-label">🧠 Your Revision Plan</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text-white);margin-bottom:0.3rem;" id="sr_topic_out">—</div>
+      <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:1.2rem;" id="sr_studied_on"></div>
+
+      <!-- Forgetting curve visual -->
+      <div style="margin-bottom:1.2rem;">
+        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.5rem;">📉 Memory Without Revision vs. With Your Plan</div>
+        <svg id="sr_curve" viewBox="0 0 520 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:10px;"></svg>
+      </div>
+
+      <!-- Revision cards -->
+      <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.6rem;">🗓️ Revision Schedule</div>
+      <div id="sr_cards" style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;"></div>
+
+      <!-- Summary strip -->
+      <div id="sr_summary" style="padding:0.8rem 1rem;background:rgba(29,78,216,0.06);border:1px solid rgba(29,78,216,0.15);border-radius:10px;font-size:0.78rem;color:var(--text-muted);line-height:1.7;"></div>
     </div>`,
 
   govtSalary: () => `
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-icon ti-gold">💼</div>
     <div class="modal-title">Govt Job Salary Calculator</div>
-    <div class="modal-subtitle">Full 7th Pay Commission breakdown — Basic, DA, HRA, TA, allowances, deductions & in-hand salary.</div>
+    <div class="modal-subtitle">Pick your post & city — get your in-hand salary instantly. Based on 7th Pay Commission.</div>
     <div class="form-group">
-      <label class="form-label">Post / Pay Level</label>
+      <label class="form-label">Which Post Are You Targeting? 🎯</label>
       <select class="form-select" id="gs_post">
-        <optgroup label="── Group C / D ──">
-          <option value="1">Pay Level 1 — MTS / Peon (₹18,000 basic)</option>
-          <option value="2">Pay Level 2 — MTS (₹19,900 basic)</option>
-          <option value="3">Pay Level 3 — LDC / JSA (₹21,700 basic)</option>
-          <option value="4">Pay Level 4 — SSC CHSL / Constable (₹25,500 basic)</option>
-          <option value="5">Pay Level 5 — SSC CGL Tier / Sub-Inspector (₹29,200 basic)</option>
+        <optgroup label="SSC / Railways">
+          <option value="4">SSC CHSL / Constable — ₹25,500</option>
+          <option value="5">SSC CGL / Sub-Inspector — ₹29,200</option>
+          <option value="6">SSC CGL Gr B / IBPS Clerk — ₹35,400</option>
         </optgroup>
-        <optgroup label="── Group B (Gazetted) ──">
-          <option value="6">Pay Level 6 — SSC CGL / IBPS Clerk (₹35,400 basic)</option>
-          <option value="7">Pay Level 7 — IBPS PO / SBI PO / Inspector (₹44,900 basic)</option>
-          <option value="8">Pay Level 8 — RBI Gr B / DSP (₹47,600 basic)</option>
+        <optgroup label="Banking">
+          <option value="7">IBPS PO / SBI PO — ₹44,900</option>
+          <option value="8">RBI Grade B / DSP — ₹47,600</option>
         </optgroup>
-        <optgroup label="── Group A ──">
-          <option value="10">Pay Level 10 — UPSC IAS / IPS Entry (₹56,100 basic)</option>
-          <option value="11">Pay Level 11 — IAS Senior (₹67,700 basic)</option>
-          <option value="12">Pay Level 12 — Deputy Secretary (₹78,800 basic)</option>
-          <option value="13">Pay Level 13 — Joint Secretary (₹1,23,100 basic)</option>
-          <option value="14">Pay Level 14 — Additional Secretary (₹1,44,200 basic)</option>
-          <option value="17">Pay Level 17 — Cabinet Secretary (₹2,50,000 basic)</option>
+        <optgroup label="UPSC / Group A">
+          <option value="10">IAS / IPS Entry — ₹56,100</option>
+          <option value="13">Joint Secretary — ₹1,23,100</option>
         </optgroup>
       </select>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">City Class</label>
-        <select class="form-select" id="gs_city">
-          <option value="x">X Class — Delhi, Mumbai, Chennai, Kolkata, Hyderabad, Bengaluru (27% HRA)</option>
-          <option value="y">Y Class — Pune, Jaipur, Lucknow, Patna, Surat, Indore etc. (18% HRA)</option>
-          <option value="z">Z Class — All other cities &amp; towns (9% HRA)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Transport Allowance City</label>
-        <select class="form-select" id="gs_ta_city">
-          <option value="high">TPTA Cities (Delhi, Mumbai etc.) — Higher TA</option>
-          <option value="low">Other Cities — Standard TA</option>
-        </select>
-      </div>
+    <div class="form-group">
+      <label class="form-label">Your City 🏙️</label>
+      <select class="form-select" id="gs_city">
+        <option value="x">Metro — Delhi, Mumbai, Bengaluru…</option>
+        <option value="y">Tier-2 — Pune, Jaipur, Lucknow…</option>
+        <option value="z">Other Cities &amp; Towns</option>
+      </select>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">NPS Contribution</label>
-        <select class="form-select" id="gs_nps">
-          <option value="10">10% of Basic (Standard)</option>
-          <option value="0">Not Applicable (Pre-2004)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">CGHS / CGEGIS</label>
-        <select class="form-select" id="gs_cghs">
-          <option value="yes">Include CGHS + CGEGIS deductions</option>
-          <option value="no">Exclude</option>
-        </select>
-      </div>
-    </div>
-    <button class="calc-btn" onclick="calcGovtSalary()">Calculate Full Salary Breakdown →</button>
+    <button class="calc-btn" onclick="calcGovtSalary()">Show My Salary →</button>
     <div class="result-box" id="gs_result">
-      <div class="result-label">Monthly In-hand Salary</div>
+      <div class="result-label">💰 Monthly In-hand Salary</div>
       <div class="result-value green" id="gs_inhand">—</div>
-
-      <div style="margin:1.2rem 0 0.5rem;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);">📊 Salary Breakdown Chart</div>
+      <div style="margin:1.2rem 0 0.5rem;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);">📊 Where Does Your Salary Come From?</div>
       <svg id="gs_chart" viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:10px;margin-bottom:1rem;"></svg>
-
-      <div style="margin:1rem 0 0.5rem;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);">🥧 Gross Pay Composition (Pie)</div>
-      <svg id="gs_pie" viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin-bottom:1rem;"></svg>
-
-      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.75rem;">💰 Full Breakdown</div>
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.75rem;">📋 Full Salary Breakdown</div>
       <div id="gs_breakdown_table"></div>
       <div class="result-note" id="gs_note"></div>
     </div>`,
@@ -2321,23 +2338,63 @@ const modals = {
   diTable: () => `
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-icon ti-sky">📋</div>
-    <div class="modal-title">DI Table Generator</div>
-    <div class="modal-subtitle">Auto-generate a random DI (Data Interpretation) table with 5 practice questions. Infinite variety, no database.</div>
+    <div class="modal-title">DI Practice Set Generator</div>
+    <div class="modal-subtitle">Exam-realistic DI sets on government data — population, agriculture, railways, banking & more. Exactly like SSC / IBPS / RRB papers.</div>
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">DI Type</label>
+        <label class="form-label">Topic</label>
+        <select class="form-select" id="di_topic">
+          <optgroup label="── Government / Census ──">
+            <option value="state_pop">State-wise Population (Census)</option>
+            <option value="literacy">State Literacy Rate</option>
+            <option value="sex_ratio">State Sex Ratio</option>
+          </optgroup>
+          <optgroup label="── Agriculture ──">
+            <option value="crop_prod">Crop Production (lakh tonnes)</option>
+            <option value="crop_area">Crop Sown Area (lakh hectares)</option>
+          </optgroup>
+          <optgroup label="── Railways ──">
+            <option value="railway_zones">Railway Zone Earnings (₹ Cr)</option>
+            <option value="railway_pass">Passenger Traffic (crore)</option>
+          </optgroup>
+          <optgroup label="── Banking / Finance ──">
+            <option value="bank_deposits">Bank Deposits (₹ lakh Cr)</option>
+            <option value="bank_credit">Bank Credit Offtake (₹ lakh Cr)</option>
+          </optgroup>
+          <optgroup label="── Education / Social ──">
+            <option value="school_enrol">School Enrolment (lakh students)</option>
+            <option value="crime_state">IPC Crimes by State (thousands)</option>
+          </optgroup>
+          <optgroup label="── Infrastructure ──">
+            <option value="road_length">State Road Length (thousand km)</option>
+            <option value="power_gen">Power Generation (BU)</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">DI Format</label>
         <select class="form-select" id="di_type">
           <option value="table">Table DI</option>
           <option value="bar">Bar Chart DI</option>
           <option value="pie">Pie Chart DI</option>
         </select>
       </div>
+    </div>
+    <div class="form-row">
       <div class="form-group">
         <label class="form-label">Difficulty</label>
         <select class="form-select" id="di_diff">
-          <option value="easy">Easy (SSC CHSL level)</option>
-          <option value="medium">Medium (SSC CGL level)</option>
-          <option value="hard">Hard (IBPS PO level)</option>
+          <option value="easy">Easy — SSC CHSL / MTS level</option>
+          <option value="medium">Medium — SSC CGL / RRB NTPC level</option>
+          <option value="hard">Hard — IBPS PO / SBI PO level</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Year Reference</label>
+        <select class="form-select" id="di_year">
+          <option value="2023">2022–23</option>
+          <option value="2022">2021–22</option>
+          <option value="2024">2023–24</option>
         </select>
       </div>
     </div>
@@ -2665,21 +2722,151 @@ function calcCutoffSafety() {
 
 // SPACED REPETITION
 function calcSpacedRepetition() {
-  const topic = document.getElementById('sr_topic').value;
+  const topic   = document.getElementById('sr_topic').value.trim();
   const dateVal = document.getElementById('sr_date').value;
-  const diff = document.getElementById('sr_diff').value;
-  if (!topic || !dateVal) { alert('Please fill all fields.'); return; }
+  const diff    = document.getElementById('sr_diff').value;
+  if (!topic)   { alert('Please enter a topic name.'); return; }
+  if (!dateVal) { alert('Please select the date you studied this topic.'); return; }
+
   const base = new Date(dateVal);
-  const intervals = diff === 'easy' ? [1,4,9,20,45] : diff === 'medium' ? [1,3,7,16,35] : [1,2,5,12,25];
-  const labels = ['1st Revision','2nd Revision','3rd Revision','4th Revision','5th Revision (Final)'];
-  const schedule = intervals.map((days, i) => {
-    const d = new Date(base);
-    d.setDate(d.getDate() + days);
-    return `${labels[i]}: ${d.toDateString()} (Day +${days})`;
+  base.setHours(0,0,0,0);
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // Scientifically-calibrated intervals (days after study date)
+  // Hard = more frequent, Easy = longer gaps
+  const config = {
+    easy:   { intervals:[1, 3, 7, 21, 60], retentions:[85,90,92,95,98], tip:'Great start! Longer gaps are fine since you grasped it well.' },
+    medium: { intervals:[1, 3, 7, 14, 30], retentions:[80,85,88,92,96], tip:'Revise actively — close the book and recall before checking.' },
+    hard:   { intervals:[1, 2, 4,  7, 21], retentions:[70,78,83,88,95], tip:'Use flashcards or write short notes. Frequent revision is key!' }
+  };
+  const { intervals, retentions, tip } = config[diff];
+
+  const ordinals  = ['1st','2nd','3rd','4th','5th'];
+  const purposes  = [
+    'Same-night recall — strengthens initial memory',
+    'Short-term check — catch what faded overnight',
+    'Week review — moves info to medium-term memory',
+    'Consolidation — cements it in long-term storage',
+    'Final lock-in — should now stay for months!'
+  ];
+
+  // ── Output header ──
+  document.getElementById('sr_topic_out').textContent = '📖 ' + topic;
+  const studiedStr = base.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('sr_studied_on').textContent = `Studied on: ${studiedStr}`;
+
+  // ── Forgetting curve SVG ──
+  const svgEl = document.getElementById('sr_curve');
+  const W=520, H=130, padL=40, padR=10, padT=14, padB=24;
+  const gW=W-padL-padR, gH=H-padT-padB;
+
+  // Decay without revision: R(t) = e^(-t/S), S≈1.5 day for new memory
+  const totalDays = intervals[4] + 5;
+  const decay = t => Math.max(5, Math.round(100 * Math.exp(-t / (diff==='easy'?2.2:diff==='medium'?1.6:1.1))));
+
+  // X/Y helpers
+  const xOf = d => padL + (d/totalDays)*gW;
+  const yOf = pct => padT + gH - (pct/100)*gH;
+
+  // Build decay path
+  let decayPath = `M${xOf(0)},${yOf(100)}`;
+  for(let t=1; t<=totalDays; t++) decayPath += ` L${xOf(t)},${yOf(decay(t))}`;
+
+  // Build "with revision" stepped path — retention resets at each revision
+  let revPath = `M${xOf(0)},${yOf(100)}`;
+  let prev = 0;
+  intervals.forEach((day, i) => {
+    // decay from previous revision until this one
+    for(let t=prev+1; t<=day; t++) {
+      const daysSinceLastRev = t - prev;
+      const baseRet = i===0 ? 100 : retentions[i-1];
+      const r = Math.max(baseRet*0.5, baseRet * Math.exp(-daysSinceLastRev/(diff==='easy'?2.5:diff==='medium'?1.8:1.3)));
+      revPath += ` L${xOf(t)},${yOf(Math.round(r))}`;
+    }
+    // spike back up after revision
+    revPath += ` L${xOf(day)},${yOf(retentions[i])}`;
+    prev = day;
   });
-  document.getElementById('sr_topic_out').textContent = topic;
-  document.getElementById('sr_schedule').innerHTML = schedule.map(s => `<li>${s}</li>`).join('');
-  document.getElementById('sr_note').textContent = `Based on Ebbinghaus forgetting curve. ${diff === 'hard' ? 'More frequent revisions scheduled due to high difficulty.' : 'Stick to this schedule for maximum retention.'} After the 5th revision, the topic should be in long-term memory.`;
+  // continue after last revision
+  for(let t=prev+1; t<=totalDays; t++) {
+    const daysSince = t - prev;
+    const r = Math.max(retentions[4]*0.6, retentions[4] * Math.exp(-daysSince/4));
+    revPath += ` L${xOf(t)},${yOf(Math.round(r))}`;
+  }
+
+  // Revision day markers
+  const markers = intervals.map((d,i) =>
+    `<circle cx="${xOf(d)}" cy="${yOf(retentions[i])}" r="4" fill="#16A34A" stroke="#fff" stroke-width="1.5"/>`
+  ).join('');
+
+  // Y axis labels
+  const yLabels = [0,25,50,75,100].map(v =>
+    `<text x="${padL-6}" y="${yOf(v)+4}" text-anchor="end" font-size="9" fill="#94A3B8">${v}%</text>
+     <line x1="${padL}" y1="${yOf(v)}" x2="${W-padR}" y2="${yOf(v)}" stroke="#E2E8F0" stroke-width="0.5"/>`
+  ).join('');
+
+  svgEl.innerHTML = `
+    <rect width="${W}" height="${H}" rx="8" fill="#F8FAFC"/>
+    ${yLabels}
+    <path d="${decayPath}" fill="none" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.5"/>
+    <path d="${revPath}"   fill="none" stroke="#16A34A" stroke-width="2"/>
+    ${markers}
+    <text x="${padL+4}" y="${padT+10}" font-size="8" fill="#EF4444" opacity="0.8">Without revision</text>
+    <text x="${padL+4}" y="${padT+22}" font-size="8" fill="#16A34A">With your plan</text>
+    <text x="${W/2}" y="${H-3}" text-anchor="middle" font-size="8" fill="#94A3B8">Days after studying →</text>
+  `;
+
+  // ── Revision cards ──
+  const cardContainer = document.getElementById('sr_cards');
+  const diffDay = ms => Math.round(ms / 86400000);
+  cardContainer.innerHTML = intervals.map((days, i) => {
+    const revDate = new Date(base);
+    revDate.setDate(revDate.getDate() + days);
+    const daysFromToday = diffDay(revDate - today);
+    const isPast   = daysFromToday < 0;
+    const isToday  = daysFromToday === 0;
+    const isTomorrow = daysFromToday === 1;
+
+    const urgency = isPast ? { bg:'rgba(239,68,68,0.07)',border:'rgba(239,68,68,0.25)',badge:'OVERDUE','badgeColor':'#EF4444' }
+                  : isToday ? { bg:'rgba(245,158,11,0.09)',border:'rgba(245,158,11,0.35)',badge:'TODAY!','badgeColor':'#B45309' }
+                  : isTomorrow ? { bg:'rgba(29,78,216,0.06)',border:'rgba(29,78,216,0.2)',badge:'TOMORROW','badgeColor':'#1D4ED8' }
+                  : { bg:'', border:'#E2E8F0', badge:'', badgeColor:'' };
+
+    const whenStr = isPast ? `${Math.abs(daysFromToday)} day${Math.abs(daysFromToday)>1?'s':''} ago`
+                  : isToday ? 'Today'
+                  : isTomorrow ? 'Tomorrow'
+                  : `In ${daysFromToday} days`;
+
+    const dateStr = revDate.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+    const retPct = retentions[i];
+    const retColor = retPct>=90?'#16A34A':retPct>=80?'#B45309':'#EF4444';
+
+    return `<div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 0.9rem;background:${urgency.bg||'#F8FAFC'};border:1px solid ${urgency.border};border-radius:10px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:rgba(29,78,216,0.12);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:800;color:#1D4ED8;flex-shrink:0;">${i+1}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--text-white);">${ordinals[i]} Revision · <span style="color:#1D4ED8;">${dateStr}</span> <span style="font-weight:400;color:var(--text-dim);font-size:0.72rem;">(${whenStr})</span>${urgency.badge?`<span style="margin-left:0.4rem;font-size:0.6rem;font-weight:700;padding:0.1rem 0.45rem;border-radius:4px;background:${urgency.badgeColor}20;color:${urgency.badgeColor};border:1px solid ${urgency.badgeColor}40">${urgency.badge}</span>`:''}</div>
+        <div style="font-size:0.7rem;color:var(--text-dim);margin-top:0.15rem;">${purposes[i]}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:800;color:${retColor};">${retPct}%</div>
+        <div style="font-size:0.6rem;color:var(--text-dim);">retention</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // ── Summary strip ──
+  const nextRev = intervals.map((d,i) => {
+    const rd = new Date(base); rd.setDate(rd.getDate()+d);
+    return { date:rd, days: diffDay(rd-today), i };
+  }).filter(x => x.days >= 0);
+  const next = nextRev[0];
+  const nextStr = next
+    ? (next.days===0 ? `⚡ Your <strong>next revision is TODAY</strong>` : next.days===1 ? `📌 Your <strong>next revision is tomorrow</strong>` : `📌 Your <strong>${ordinals[next.i]} revision</strong> is in <strong>${next.days} days</strong>`)
+    : `✅ All revisions done! This topic is now in long-term memory.`;
+
+  document.getElementById('sr_summary').innerHTML =
+    `${nextStr}<br><span style="color:var(--text-dim);">💡 Tip: ${tip} After all 5 revisions, you should retain <strong>~${retentions[4]}%</strong> long-term.</span>`;
+
   document.getElementById('sr_result').classList.add('show');
 }
 
@@ -2803,75 +2990,59 @@ function makeSvgGauge(containerId, pct, viewW, viewH) {
 function calcGovtSalary() {
   const level = parseInt(document.getElementById('gs_post').value);
   const city  = document.getElementById('gs_city').value;
-  const taCity= document.getElementById('gs_ta_city').value;
-  const npsPct= parseInt(document.getElementById('gs_nps').value);
-  const cghs  = document.getElementById('gs_cghs').value;
+
+  // Auto-derive: TA city matches HRA city (metro = high TA), NPS = 10% (standard), CGHS = included
+  const taCity  = city === 'x' ? 'high' : 'low';
+  const npsPct  = 10;
+  const cghs    = 'yes';
 
   const pay   = payLevels[level];
   const basic = pay.basic;
   const da    = Math.round(basic * 0.55);       // DA @ 55% (Jan 2025)
   const hra   = Math.round(basic * hraRates[city]);
   const ta    = getTA(level, taCity);
-  const daOnTA= Math.round(ta * 0.55);          // DA on TA
+  const daOnTA= Math.round(ta * 0.55);
   const gross = basic + da + hra + ta + daOnTA;
 
-  // Deductions
-  const nps   = Math.round(basic * (npsPct/100));
-  const cghsAmt = cghs === 'yes' ? (level <= 5 ? 250 : level <= 9 ? 450 : level <= 13 ? 650 : 1000) : 0;
-  const cgegis  = cghs === 'yes' ? (level <= 5 ? 30  : level <= 9 ? 60  : 120) : 0;
+  // Standard deductions
+  const nps     = Math.round(basic * (npsPct / 100));
+  const cghsAmt = level <= 5 ? 250 : level <= 9 ? 450 : 650;
+  const cgegis  = level <= 5 ? 30  : level <= 9 ? 60  : 120;
   const totalDed= nps + cghsAmt + cgegis;
   const inhand  = gross - totalDed;
-
-  // Annual figures
-  const annual = inhand * 12;
+  const annual  = inhand * 12;
 
   document.getElementById('gs_inhand').textContent = '₹' + inhand.toLocaleString('en-IN') + '/month';
 
   // Bar chart — earnings
   makeSvgBarChart('gs_chart', [
-    { label:'Basic Pay',  value:basic, color:'#1D4ED8' },
-    { label:`DA (55%)`,   value:da,    color:'#10B981' },
+    { label:'Basic Pay',  value:basic,        color:'#1D4ED8' },
+    { label:'DA (55%)',   value:da,           color:'#10B981' },
     { label:`HRA (${hraRates[city]*100}%)`, value:hra, color:'#F59E0B' },
-    { label:'TA + DA/TA', value:ta+daOnTA, color:'#8B5CF6' }
+    { label:'TA + DA/TA', value:ta+daOnTA,   color:'#8B5CF6' }
   ], 560, 180);
 
-  // Pie — gross composition
-  makeSvgPieChart('gs_pie', [
-    { label:'Basic Pay', value:basic,      color:'#1D4ED8' },
-    { label:'DA',        value:da,         color:'#10B981' },
-    { label:'HRA',       value:hra,        color:'#F59E0B' },
-    { label:'TA+DA/TA',  value:ta+daOnTA,  color:'#8B5CF6' }
-  ], 320, 180);
-
   // Breakdown table
+  const cityLabel = city === 'x' ? 'Metro' : city === 'y' ? 'Tier-2' : 'Other';
   const rows = [
-    { label:'Basic Pay',             value:basic,    type:'earn' },
-    { label:`DA @ 55% of Basic`,     value:da,       type:'earn' },
-    { label:`HRA @ ${hraRates[city]*100}% of Basic (${city.toUpperCase()} city)`, value:hra, type:'earn' },
-    { label:`Transport Allowance`,   value:ta,       type:'earn' },
-    { label:`DA on TA @ 55%`,        value:daOnTA,   type:'earn' },
-    { label:'Gross Pay',             value:gross,    type:'total' },
-    { label:`NPS Deduction @ ${npsPct}%`, value:nps, type:'ded' },
-    ...(cghs==='yes' ? [
-      { label:`CGHS Contribution`,   value:cghsAmt,  type:'ded' },
-      { label:`CGEGIS`,              value:cgegis,   type:'ded' }
-    ] : []),
-    { label:'Total Deductions',      value:totalDed, type:'total_ded' },
-    { label:'In-hand (Take Home)',   value:inhand,   type:'inhand' },
-    { label:'Annual In-hand',        value:annual,   type:'annual' },
+    { label:'Basic Pay',                                     value:basic,    type:'earn' },
+    { label:'DA @ 55% of Basic',                            value:da,       type:'earn' },
+    { label:`HRA @ ${hraRates[city]*100}% (${cityLabel})`, value:hra,      type:'earn' },
+    { label:'Transport Allowance + DA on TA',               value:ta+daOnTA,type:'earn' },
+    { label:'Gross Pay',                                     value:gross,    type:'total' },
+    { label:'NPS @ 10% (your contribution)',                 value:nps,      type:'ded' },
+    { label:'CGHS + CGEGIS (health & insurance)',           value:cghsAmt+cgegis, type:'ded' },
+    { label:'Total Deductions',                              value:totalDed, type:'total_ded' },
+    { label:'💵 In-hand (Take Home)',                       value:inhand,   type:'inhand' },
+    { label:'📅 Annual In-hand',                            value:annual,   type:'annual' },
   ];
 
   let tableHtml = `<div style="border-radius:10px;overflow:hidden;border:1px solid #E2E8F0;margin-bottom:1rem;">`;
   rows.forEach(r => {
-    const bg = r.type === 'inhand' ? 'background:rgba(22,163,74,0.08)' :
-               r.type === 'annual' ? 'background:rgba(29,78,216,0.06)' :
-               r.type === 'total'  ? 'background:#F8FAFC' :
-               r.type === 'total_ded' ? 'background:rgba(239,68,68,0.05)' : '';
-    const fw = (r.type==='inhand'||r.type==='annual'||r.type==='total'||r.type==='total_ded') ? 'font-weight:700' : 'font-weight:400';
-    const col = r.type === 'ded' || r.type === 'total_ded' ? 'color:#EF4444' :
-                r.type === 'inhand' ? 'color:#16A34A' :
-                r.type === 'annual' ? 'color:#1D4ED8' : 'color:var(--text-white)';
-    const prefix = (r.type==='ded'||r.type==='total_ded') ? '− ' : r.type==='earn' ? '+ ' : '';
+    const bg  = r.type==='inhand'?'background:rgba(22,163,74,0.08)':r.type==='annual'?'background:rgba(29,78,216,0.06)':r.type==='total'?'background:#F8FAFC':r.type==='total_ded'?'background:rgba(239,68,68,0.05)':'';
+    const fw  = (r.type==='inhand'||r.type==='annual'||r.type==='total'||r.type==='total_ded')?'font-weight:700':'font-weight:400';
+    const col = r.type==='ded'||r.type==='total_ded'?'color:#EF4444':r.type==='inhand'?'color:#16A34A':r.type==='annual'?'color:#1D4ED8':'color:var(--text-white)';
+    const prefix = (r.type==='ded'||r.type==='total_ded')?'− ':r.type==='earn'?'+ ':'';
     tableHtml += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.9rem;border-bottom:1px solid #F1F5F9;${bg}">
       <span style="font-size:0.8rem;${fw};color:var(--text-muted)">${r.label}</span>
       <span style="font-size:0.85rem;${fw};${col};font-family:'Plus Jakarta Sans',sans-serif">${prefix}₹${r.value.toLocaleString('en-IN')}</span>
@@ -2880,7 +3051,7 @@ function calcGovtSalary() {
   tableHtml += `</div>`;
   document.getElementById('gs_breakdown_table').innerHTML = tableHtml;
 
-  document.getElementById('gs_note').textContent = `Pay Level ${level} · ${pay.label} · ${city.toUpperCase()} Class City · Annual CTC ≈ ₹${(gross*12).toLocaleString('en-IN')}. DA is at 55% (Jan 2025 revision). Figures are approximate and may vary slightly by department.`;
+  document.getElementById('gs_note').textContent = `${pay.label} · ${cityLabel} City · Annual CTC ≈ ₹${(gross*12).toLocaleString('en-IN')}. DA @ 55% (Jan 2025). Standard NPS & CGHS deductions applied. Figures are approximate.`;
   document.getElementById('gs_result').classList.add('show');
 }
 
@@ -3045,94 +3216,377 @@ function calcRankVacancy() {
   document.getElementById('rv_result').classList.add('show');
 }
 
-// DI GENERATOR
+// DI GENERATOR — Exam-realistic government data topics
+const diTopicDB = {
+  state_pop: {
+    label: 'Population (in Crore)',
+    unit: 'Crore',
+    rows: [
+      { name:'Uttar Pradesh', easy:[23.8,24.0,24.4], medium:[23.81,24.05,24.42], hard:[23.81,24.05,24.42] },
+      { name:'Maharashtra',   easy:[12.4,12.5,12.7], medium:[12.38,12.51,12.71], hard:[12.38,12.51,12.71] },
+      { name:'Bihar',         easy:[12.1,12.3,12.5], medium:[12.09,12.26,12.48], hard:[12.09,12.26,12.48] },
+      { name:'West Bengal',   easy:[9.2,9.3,9.4],   medium:[9.17,9.28,9.39],   hard:[9.17,9.28,9.39] },
+      { name:'Rajasthan',     easy:[7.5,7.7,7.9],   medium:[7.51,7.68,7.86],   hard:[7.51,7.68,7.86] },
+    ],
+    context: 'The table below shows the estimated population (in crore) of five major Indian states for three consecutive years.',
+    qType: 'population'
+  },
+  literacy: {
+    label: 'Literacy Rate (%)',
+    unit: '%',
+    rows: [
+      { name:'Kerala',        easy:[94,94,95], medium:[93.9,94.0,95.1], hard:[93.91,94.00,95.12] },
+      { name:'Delhi',         easy:[87,88,89], medium:[86.9,87.5,88.7], hard:[86.34,87.54,88.72] },
+      { name:'Himachal P.',   easy:[83,83,84], medium:[82.7,83.0,84.1], hard:[82.74,82.97,84.10] },
+      { name:'Uttarakhand',   easy:[79,80,81], medium:[78.9,79.6,80.9], hard:[78.82,79.63,80.89] },
+      { name:'Bihar',         easy:[62,63,64], medium:[61.8,63.0,64.1], hard:[61.80,62.99,64.13] },
+    ],
+    context: 'The table shows the literacy rate (%) of five states as recorded in three survey years.',
+    qType: 'rate'
+  },
+  sex_ratio: {
+    label: 'Sex Ratio (females per 1000 males)',
+    unit: '',
+    rows: [
+      { name:'Kerala',        easy:[1084,1084,1084], medium:[1084,1084,1084], hard:[1084,1084,1084] },
+      { name:'Chhattisgarh',  easy:[991,993,995],   medium:[991,993,995],   hard:[991,993,995] },
+      { name:'Odisha',        easy:[979,980,982],   medium:[978,980,982],   hard:[978,980,982] },
+      { name:'Haryana',       easy:[879,880,883],   medium:[879,880,883],   hard:[879,880,883] },
+      { name:'Punjab',        easy:[895,897,900],   medium:[895,897,900],   hard:[895,897,900] },
+    ],
+    context: 'The table shows the sex ratio (number of females per 1000 males) of five Indian states over three survey periods.',
+    qType: 'ratio'
+  },
+  crop_prod: {
+    label: 'Production (Lakh Tonnes)',
+    unit: 'LT',
+    rows: [
+      { name:'Wheat',  easy:[1075,1098,1135], medium:[1075,1098,1135], hard:[1074.8,1097.5,1134.9] },
+      { name:'Rice',   easy:[1162,1175,1200], medium:[1162,1175,1200], hard:[1162.1,1175.4,1200.1] },
+      { name:'Maize',  easy:[338,348,355],    medium:[338,348,355],    hard:[337.8,347.9,354.9] },
+      { name:'Pulses', easy:[234,241,248],    medium:[234,241,248],    hard:[234.1,240.7,247.7] },
+      { name:'Soybean',easy:[145,153,158],    medium:[145,153,158],    hard:[144.5,152.9,157.7] },
+    ],
+    context: 'The table shows the production of five major crops in India (in Lakh Tonnes) over three agricultural years.',
+    qType: 'production'
+  },
+  crop_area: {
+    label: 'Sown Area (Lakh Hectares)',
+    unit: 'LH',
+    rows: [
+      { name:'Wheat',   easy:[296,298,302], medium:[295.9,297.8,301.7], hard:[295.9,297.8,301.7] },
+      { name:'Rice',    easy:[441,445,449], medium:[441.0,445.0,449.0], hard:[441.0,445.0,449.0] },
+      { name:'Cotton',  easy:[126,124,125], medium:[126.1,124.3,125.0], hard:[126.1,124.3,125.0] },
+      { name:'Sugarcane',easy:[53,55,57],   medium:[53.2,54.9,57.0],   hard:[53.2,54.9,57.0] },
+      { name:'Groundnut',easy:[45,47,46],   medium:[45.1,46.9,46.2],   hard:[45.1,46.9,46.2] },
+    ],
+    context: 'The table shows the area sown (in Lakh Hectares) for five major crops over three agricultural years.',
+    qType: 'area'
+  },
+  railway_zones: {
+    label: 'Earnings (₹ Crore)',
+    unit: '₹ Cr',
+    rows: [
+      { name:'Northern Rly',     easy:[18420,19100,20340], medium:[18420,19100,20340], hard:[18424,19098,20341] },
+      { name:'Central Rly',      easy:[14200,14900,15800], medium:[14200,14900,15800], hard:[14195,14897,15802] },
+      { name:'Western Rly',      easy:[16500,17200,18100], medium:[16500,17200,18100], hard:[16498,17201,18097] },
+      { name:'Southern Rly',     easy:[12300,12800,13600], medium:[12300,12800,13600], hard:[12302,12796,13598] },
+      { name:'Eastern Rly',      easy:[10400,11000,11700], medium:[10400,11000,11700], hard:[10398,10999,11704] },
+    ],
+    context: 'The table shows the total earnings (₹ Crore) of five major Indian Railway zones over three financial years.',
+    qType: 'earnings'
+  },
+  railway_pass: {
+    label: 'Passengers Carried (Crore)',
+    unit: 'Crore',
+    rows: [
+      { name:'Northern Rly',  easy:[98,102,107],  medium:[97.8,102.1,107.4], hard:[97.81,102.09,107.43] },
+      { name:'Central Rly',   easy:[78,81,85],    medium:[78.1,80.9,84.7],   hard:[78.14,80.91,84.72] },
+      { name:'Western Rly',   easy:[84,87,92],    medium:[83.9,87.2,91.8],   hard:[83.94,87.19,91.81] },
+      { name:'Southern Rly',  easy:[62,65,68],    medium:[62.3,64.9,68.1],   hard:[62.31,64.93,68.07] },
+      { name:'Eastern Rly',   easy:[71,74,78],    medium:[71.4,73.8,77.9],   hard:[71.38,73.84,77.92] },
+    ],
+    context: 'The table shows the number of passengers carried (in Crore) by five Railway zones over three years.',
+    qType: 'passengers'
+  },
+  bank_deposits: {
+    label: 'Deposits (₹ Lakh Crore)',
+    unit: '₹ L Cr',
+    rows: [
+      { name:'SBI',         easy:[38.4,41.2,44.9], medium:[38.4,41.2,44.9], hard:[38.43,41.23,44.92] },
+      { name:'PNB',         easy:[12.8,13.5,14.4], medium:[12.8,13.5,14.4], hard:[12.76,13.51,14.38] },
+      { name:'Bank of Baroda',easy:[10.2,11.0,11.9],medium:[10.2,11.0,11.9],hard:[10.21,10.98,11.87] },
+      { name:'Canara Bank', easy:[9.5,10.1,10.8],  medium:[9.5,10.1,10.8],  hard:[9.52,10.13,10.79] },
+      { name:'Union Bank',  easy:[7.8,8.4,9.1],    medium:[7.8,8.4,9.1],    hard:[7.83,8.41,9.07] },
+    ],
+    context: 'The table shows total deposits (₹ Lakh Crore) of five major public sector banks over three financial years.',
+    qType: 'deposits'
+  },
+  bank_credit: {
+    label: 'Credit Offtake (₹ Lakh Crore)',
+    unit: '₹ L Cr',
+    rows: [
+      { name:'SBI',           easy:[28.1,31.4,35.0], medium:[28.1,31.4,35.0], hard:[28.13,31.38,34.97] },
+      { name:'PNB',           easy:[8.4,9.2,10.1],   medium:[8.4,9.2,10.1],   hard:[8.41,9.23,10.08] },
+      { name:'Bank of Baroda',easy:[7.6,8.3,9.2],    medium:[7.6,8.3,9.2],    hard:[7.62,8.28,9.19] },
+      { name:'Canara Bank',   easy:[6.9,7.6,8.4],    medium:[6.9,7.6,8.4],    hard:[6.91,7.58,8.39] },
+      { name:'Union Bank',    easy:[5.8,6.4,7.1],    medium:[5.8,6.4,7.1],    hard:[5.81,6.43,7.09] },
+    ],
+    context: 'The table shows the credit offtake (₹ Lakh Crore) by five major public sector banks over three financial years.',
+    qType: 'credit'
+  },
+  school_enrol: {
+    label: 'Enrolment (Lakh Students)',
+    unit: 'Lakh',
+    rows: [
+      { name:'Primary (I-V)',   easy:[1248,1231,1215], medium:[1248,1231,1215], hard:[1247.6,1231.2,1214.9] },
+      { name:'Upper Pri. (VI-VIII)',easy:[634,641,652],medium:[634,641,652],    hard:[633.9,640.7,651.8] },
+      { name:'Secondary (IX-X)',easy:[384,392,401],    medium:[384,392,401],    hard:[383.7,392.1,400.9] },
+      { name:'Sr. Sec. (XI-XII)',easy:[258,268,279],   medium:[258,268,279],    hard:[258.1,267.9,279.2] },
+      { name:'Higher Ed.',      easy:[185,196,208],    medium:[185,196,208],    hard:[184.7,196.2,208.3] },
+    ],
+    context: 'The table shows student enrolment (in Lakh) at different levels of education in India over three academic years.',
+    qType: 'enrolment'
+  },
+  crime_state: {
+    label: 'IPC Crimes Registered (Thousands)',
+    unit: 'K',
+    rows: [
+      { name:'Uttar Pradesh', easy:[194,198,203], medium:[193.7,197.9,202.8], hard:[193.74,197.91,202.82] },
+      { name:'Maharashtra',   easy:[143,148,154], medium:[142.8,147.9,153.6], hard:[142.79,147.91,153.62] },
+      { name:'Rajasthan',     easy:[128,134,140], medium:[127.9,133.8,139.7], hard:[127.91,133.77,139.68] },
+      { name:'Madhya Pradesh',easy:[139,144,149], medium:[139.2,144.3,149.1], hard:[139.18,144.33,149.07] },
+      { name:'Kerala',        easy:[98,103,109],  medium:[98.1,103.2,109.0],  hard:[98.09,103.19,109.03] },
+    ],
+    context: 'The table shows the number of IPC cognizable crimes registered (in Thousands) in five Indian states over three years.',
+    qType: 'crime'
+  },
+  road_length: {
+    label: 'Road Length (Thousand km)',
+    unit: 'Th km',
+    rows: [
+      { name:'Maharashtra', easy:[267,271,276], medium:[267.5,271.2,275.8], hard:[267.52,271.23,275.81] },
+      { name:'Uttar Pradesh',easy:[331,335,340],medium:[331.3,334.9,339.5], hard:[331.32,334.94,339.51] },
+      { name:'Karnataka',   easy:[218,221,225], medium:[218.1,221.0,224.7], hard:[218.14,220.97,224.73] },
+      { name:'Gujarat',     easy:[193,197,201], medium:[193.0,196.7,200.9], hard:[192.97,196.72,200.93] },
+      { name:'Rajasthan',   easy:[246,250,255], medium:[246.3,249.8,254.9], hard:[246.27,249.81,254.87] },
+    ],
+    context: 'The table shows the total road length (in Thousand km) in five Indian states over three years.',
+    qType: 'road'
+  },
+  power_gen: {
+    label: 'Power Generation (Billion Units)',
+    unit: 'BU',
+    rows: [
+      { name:'Maharashtra', easy:[128,132,137], medium:[127.9,132.4,137.1], hard:[127.89,132.41,137.09] },
+      { name:'Gujarat',     easy:[115,119,124], medium:[114.8,118.7,123.9], hard:[114.84,118.73,123.92] },
+      { name:'Tamil Nadu',  easy:[98,103,108],  medium:[97.9,102.8,108.1],  hard:[97.93,102.81,108.13] },
+      { name:'Uttar Pradesh',easy:[81,86,91],   medium:[81.2,85.9,90.8],    hard:[81.22,85.93,90.84] },
+      { name:'Andhra Pradesh',easy:[74,78,83],  medium:[74.1,77.9,82.7],    hard:[74.08,77.88,82.73] },
+    ],
+    context: 'The table shows the total power generation (in Billion Units) of five Indian states over three years.',
+    qType: 'power'
+  },
+};
+
+const diYearLabels = {
+  '2022': ['2019-20','2020-21','2021-22'],
+  '2023': ['2020-21','2021-22','2022-23'],
+  '2024': ['2021-22','2022-23','2023-24'],
+};
+
+function gcd(a,b){return b===0?a:gcd(b,a%b);}
+
 function generateDI() {
-  const type = document.getElementById('di_type').value;
-  const diff = document.getElementById('di_diff').value;
-  const companies = ['Tata', 'Infosys', 'Wipro', 'HCL', 'TCS'];
-  const baseVals = diff === 'easy' ? [100,120,150,130,160] : diff === 'medium' ? [245,312,198,420,375] : [1243,2156,1872,2541,3012];
-  const label = type === 'pie' ? 'Market Share (%)' : 'Revenue (₹ Cr)';
-  const total = baseVals.reduce((a,b)=>a+b,0);
-  const colors = ['#1D4ED8','#10B981','#F59E0B','#8B5CF6','#EF4444'];
+  const topicKey = document.getElementById('di_topic').value;
+  const type     = document.getElementById('di_type').value;
+  const diff     = document.getElementById('di_diff').value;
+  const yearKey  = document.getElementById('di_year').value;
 
-  let html = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim);margin-bottom:1rem;letter-spacing:0.1em;">AUTO-GENERATED · ${type.toUpperCase()} DI SET · ${diff.toUpperCase()}</div>`;
+  const topic   = diTopicDB[topicKey];
+  const years   = diYearLabels[yearKey];
+  const diffIdx = diff === 'easy' ? 0 : diff === 'medium' ? 1 : 2;
+  const colors  = ['#1D4ED8','#10B981','#F59E0B','#8B5CF6','#EF4444'];
 
-  // --- SVG CHART ---
-  if (type === 'bar' || type === 'table') {
-    // Bar chart SVG
-    const padL=80, padR=20, padT=20, padB=30, svgW=520, svgH=200;
-    const cW=svgW-padL-padR, rowH=(svgH-padT-padB)/companies.length;
-    const maxV=Math.max(...baseVals);
+  // Build data rows
+  const rows = topic.rows.map((r,i) => ({
+    name: r.name,
+    vals: r[diff],   // [yr1, yr2, yr3]
+    color: colors[i]
+  }));
+
+  // Use last year's values as primary for charts
+  const names  = rows.map(r => r.name);
+  const vals   = rows.map(r => r.vals[2]);
+  const total  = vals.reduce((a,b) => a+b, 0);
+
+  let html = `
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-dim);margin-bottom:0.5rem;letter-spacing:0.1em;">
+      ${topic.qType.toUpperCase()} DI · ${type.toUpperCase()} · ${diff.toUpperCase()} · ${years[2]}
+    </div>
+    <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.5;padding:0.6rem 0.8rem;background:rgba(29,78,216,0.04);border-left:3px solid #1D4ED8;border-radius:0 6px 6px 0;">
+      ${topic.context}
+    </div>`;
+
+  // ── CHART ──
+  if (type === 'bar') {
+    const padL=120, padR=30, padT=15, padB=15, svgW=520, svgH=220;
+    const cW=svgW-padL-padR, rowH=(svgH-padT-padB)/rows.length;
+    const maxV=Math.max(...vals);
     let svg=`<svg viewBox="0 0 ${svgW} ${svgH}" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:10px;margin-bottom:1.2rem;border:1px solid #E2E8F0;">`;
     svg+=`<rect width="${svgW}" height="${svgH}" rx="10" fill="#F8FAFC"/>`;
-    companies.forEach((c,i)=>{
-      const bH=Math.min(rowH*0.55,26), by=padT+i*rowH+(rowH-bH)/2;
-      const bW=Math.round((baseVals[i]/maxV)*cW);
-      svg+=`<text x="${padL-6}" y="${by+bH/2+4}" text-anchor="end" font-size="10" fill="#334155" font-family="Plus Jakarta Sans,sans-serif">${c}</text>`;
+    rows.forEach((r,i)=>{
+      const bH=Math.min(rowH*0.55,24), by=padT+i*rowH+(rowH-bH)/2;
+      const bW=Math.round((vals[i]/maxV)*cW);
+      svg+=`<text x="${padL-8}" y="${by+bH/2+4}" text-anchor="end" font-size="10" fill="#334155" font-family="Plus Jakarta Sans,sans-serif">${r.name}</text>`;
       svg+=`<rect x="${padL}" y="${by}" width="${cW}" height="${bH}" rx="4" fill="#E2E8F0"/>`;
-      svg+=`<rect x="${padL}" y="${by}" width="${bW}" height="${bH}" rx="4" fill="${colors[i]}"/>`;
-      svg+=`<text x="${padL+bW+6}" y="${by+bH/2+4}" font-size="9.5" font-weight="600" fill="#334155" font-family="Plus Jakarta Sans,sans-serif">${baseVals[i].toLocaleString('en-IN')}</text>`;
+      svg+=`<rect x="${padL}" y="${by}" width="${bW}" height="${bH}" rx="4" fill="${r.color}"/>`;
+      svg+=`<text x="${padL+bW+6}" y="${by+bH/2+4}" font-size="9" font-weight="600" fill="#334155" font-family="Plus Jakarta Sans,sans-serif">${vals[i].toLocaleString('en-IN')}</text>`;
     });
+    svg+=`<text x="${padL}" y="${svgH-2}" font-size="8" fill="#94A3B8" font-family="Plus Jakarta Sans,sans-serif">${topic.label} — ${years[2]}</text>`;
     svg+=`</svg>`;
     html+=svg;
   } else if (type === 'pie') {
-    // Pie chart SVG
-    const svgW=400, svgH=190, cx=95, cy=95, r=82;
+    const svgW=480, svgH=200, cx=100, cy=100, r=85;
     let svg=`<svg viewBox="0 0 ${svgW} ${svgH}" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:10px;margin-bottom:1.2rem;border:1px solid #E2E8F0;">`;
     svg+=`<rect width="${svgW}" height="${svgH}" rx="10" fill="#F8FAFC"/>`;
     let angle=-Math.PI/2;
-    companies.forEach((c,i)=>{
-      const sweep=(baseVals[i]/total)*2*Math.PI;
+    rows.forEach((r,i)=>{
+      const sweep=(vals[i]/total)*2*Math.PI;
       const x1=cx+r*Math.cos(angle),y1=cy+r*Math.sin(angle);
       const x2=cx+r*Math.cos(angle+sweep),y2=cy+r*Math.sin(angle+sweep);
       const lg=sweep>Math.PI?1:0;
-      svg+=`<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${lg},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${colors[i]}" stroke="white" stroke-width="2"/>`;
+      svg+=`<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${lg},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${r.color}" stroke="white" stroke-width="2"/>`;
       angle+=sweep;
     });
-    // Legend
-    companies.forEach((c,i)=>{
-      const pct=((baseVals[i]/total)*100).toFixed(1);
-      const ly=18+i*34;
-      svg+=`<rect x="200" y="${ly}" width="14" height="14" rx="3" fill="${colors[i]}"/>`;
-      svg+=`<text x="220" y="${ly+11}" font-size="11" fill="#334155" font-family="Plus Jakarta Sans,sans-serif" font-weight="600">${c}</text>`;
-      svg+=`<text x="385" y="${ly+11}" text-anchor="end" font-size="10" fill="#64748B" font-family="Plus Jakarta Sans,sans-serif">${pct}%</text>`;
+    rows.forEach((r,i)=>{
+      const pct=((vals[i]/total)*100).toFixed(1);
+      const ly=16+i*36;
+      svg+=`<rect x="215" y="${ly}" width="14" height="14" rx="3" fill="${r.color}"/>`;
+      svg+=`<text x="234" y="${ly+11}" font-size="11" fill="#334155" font-family="Plus Jakarta Sans,sans-serif" font-weight="600">${r.name}</text>`;
+      svg+=`<text x="470" y="${ly+11}" text-anchor="end" font-size="10" fill="#64748B" font-family="Plus Jakarta Sans,sans-serif">${pct}%</text>`;
     });
+    svg+=`<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="8" fill="#64748B" font-family="Plus Jakarta Sans,sans-serif">${years[2]}</text>`;
     svg+=`</svg>`;
     html+=svg;
   }
 
-  // Data table
-  html += `<table style="width:100%;border-collapse:collapse;margin-bottom:1.2rem;font-size:0.82rem;border-radius:8px;overflow:hidden;border:1px solid #E2E8F0;">`;
-  html += `<thead><tr style="background:#F1F5F9;"><th style="text-align:left;padding:0.55rem 0.75rem;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#64748B;">Company</th><th style="text-align:right;padding:0.55rem 0.75rem;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#64748B;">${label}</th><th style="text-align:right;padding:0.55rem 0.75rem;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#64748B;">Share %</th></tr></thead><tbody>`;
-  companies.forEach((c,i) => {
-    html += `<tr style="border-bottom:1px solid #F1F5F9;"><td style="padding:0.5rem 0.75rem;color:var(--text-white);font-weight:500;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${colors[i]};margin-right:6px;vertical-align:middle;"></span>${c}</td><td style="padding:0.5rem 0.75rem;text-align:right;font-weight:600;color:var(--text-white);">${baseVals[i].toLocaleString('en-IN')}</td><td style="padding:0.5rem 0.75rem;text-align:right;color:#64748B;">${((baseVals[i]/total)*100).toFixed(1)}%</td></tr>`;
-  });
-  html += `<tr style="background:#F8FAFC;"><td style="padding:0.55rem 0.75rem;font-weight:700;color:var(--text-white);">Total</td><td style="padding:0.55rem 0.75rem;text-align:right;font-weight:700;color:#1D4ED8;">${total.toLocaleString('en-IN')}</td><td style="padding:0.55rem 0.75rem;text-align:right;font-weight:700;color:#1D4ED8;">100%</td></tr>`;
-  html += `</tbody></table>`;
+  // ── DATA TABLE (always shown) ──
+  const thStyle = `text-align:right;padding:0.5rem 0.6rem;font-size:0.6rem;letter-spacing:0.09em;text-transform:uppercase;color:#64748B;`;
+  const thStyleL = `text-align:left;padding:0.5rem 0.6rem;font-size:0.6rem;letter-spacing:0.09em;text-transform:uppercase;color:#64748B;`;
+  html += `<div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.5rem;">📊 Data Table — ${topic.label}</div>`;
+  html += `<div style="overflow-x:auto;margin-bottom:1.2rem;">`;
+  html += `<table style="width:100%;border-collapse:collapse;font-size:0.8rem;border-radius:8px;overflow:hidden;border:1px solid #E2E8F0;min-width:360px;">`;
+  html += `<thead><tr style="background:#F1F5F9;">
+    <th style="${thStyleL}">${names[0].length>8?'State/Item':'State / Item'}</th>
+    <th style="${thStyle}">${years[0]}</th>
+    <th style="${thStyle}">${years[1]}</th>
+    <th style="${thStyle}">${years[2]}</th>
+    <th style="${thStyle}">Change ${years[0]}→${years[2]}</th>
+  </tr></thead><tbody>`;
 
-  // Practice questions
-  const q1co=companies[baseVals.indexOf(Math.max(...baseVals))];
-  const q2co=companies[baseVals.indexOf(Math.min(...baseVals))];
-  const q3=(total/5).toFixed(0);
-  const q4=((baseVals[0]/total)*100).toFixed(2);
-  const q5g=gcd(baseVals[2],baseVals[1]), q5a=`${baseVals[2]/q5g} : ${baseVals[1]/q5g}`;
-  const questions=[
-    {q:`1. Which company has the highest ${label.toLowerCase()}?`, a:`${q1co} (${Math.max(...baseVals).toLocaleString('en-IN')})`},
-    {q:`2. Which company has the lowest ${label.toLowerCase()}?`,  a:`${q2co} (${Math.min(...baseVals).toLocaleString('en-IN')})`},
-    {q:`3. What is the average ${label.toLowerCase()} of all 5 companies?`, a:parseFloat(q3).toLocaleString('en-IN')},
-    {q:`4. What percentage of total does ${companies[0]} contribute?`, a:`${q4}%`},
-    {q:`5. What is the simplified ratio of ${companies[2]} to ${companies[1]}?`, a:q5a},
+  rows.forEach((r,i) => {
+    const change = r.vals[2] - r.vals[0];
+    const changeStr = (change >= 0 ? '+' : '') + (Number.isInteger(change) ? change.toLocaleString('en-IN') : change.toFixed(1));
+    const changeColor = change >= 0 ? '#16A34A' : '#EF4444';
+    html += `<tr style="border-bottom:1px solid #F1F5F9;">
+      <td style="padding:0.45rem 0.6rem;color:var(--text-white);font-weight:500;white-space:nowrap;">
+        <span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${r.color};margin-right:6px;vertical-align:middle;"></span>${r.name}
+      </td>
+      <td style="padding:0.45rem 0.6rem;text-align:right;color:var(--text-muted);">${r.vals[0].toLocaleString('en-IN')}</td>
+      <td style="padding:0.45rem 0.6rem;text-align:right;color:var(--text-muted);">${r.vals[1].toLocaleString('en-IN')}</td>
+      <td style="padding:0.45rem 0.6rem;text-align:right;font-weight:700;color:var(--text-white);">${r.vals[2].toLocaleString('en-IN')}</td>
+      <td style="padding:0.45rem 0.6rem;text-align:right;font-weight:600;color:${changeColor};">${changeStr}</td>
+    </tr>`;
+  });
+  html += `<tr style="background:#F1F5F9;font-weight:700;">
+    <td style="padding:0.45rem 0.6rem;color:var(--text-white);">Total</td>
+    <td style="padding:0.45rem 0.6rem;text-align:right;color:#1D4ED8;">${rows.reduce((s,r)=>s+r.vals[0],0).toLocaleString('en-IN')}</td>
+    <td style="padding:0.45rem 0.6rem;text-align:right;color:#1D4ED8;">${rows.reduce((s,r)=>s+r.vals[1],0).toLocaleString('en-IN')}</td>
+    <td style="padding:0.45rem 0.6rem;text-align:right;color:#1D4ED8;">${rows.reduce((s,r)=>s+r.vals[2],0).toLocaleString('en-IN')}</td>
+    <td style="padding:0.45rem 0.6rem;text-align:right;color:#1D4ED8;"></td>
+  </tr></tbody></table></div>`;
+
+  // ── PRACTICE QUESTIONS (difficulty-adjusted) ──
+  const maxIdx  = vals.indexOf(Math.max(...vals));
+  const minIdx  = vals.indexOf(Math.min(...vals));
+  const totalYr1 = rows.reduce((s,r)=>s+r.vals[0],0);
+  const totalYr3 = rows.reduce((s,r)=>s+r.vals[2],0);
+  const avgYr3  = totalYr3 / rows.length;
+  const r0v     = rows[0].vals, r1v = rows[1].vals, r2v = rows[2].vals;
+
+  // gcd for ratio
+  const gv0 = Math.round(r0v[2]), gv1 = Math.round(r1v[2]);
+  const g   = gcd(gv0, gv1);
+  const ratioAns = `${gv0/g} : ${gv1/g}`;
+
+  // % share
+  const sharePct = ((vals[0]/totalYr3)*100).toFixed(2);
+
+  // Growth rate for hard
+  const growthPct = (((r0v[2]-r0v[0])/r0v[0])*100).toFixed(2);
+
+  // Year-on-year change
+  const yoyChange = (r1v[2] - r1v[1]);
+  const yoyStr = (yoyChange >= 0 ? '+' : '') + (Number.isInteger(yoyChange)?yoyChange.toLocaleString('en-IN'):yoyChange.toFixed(1));
+
+  const easyQs = [
+    { q:`Q1. Which state/item had the highest ${topic.label.toLowerCase()} in ${years[2]}?`,
+      a:`${rows[maxIdx].name} (${vals[maxIdx].toLocaleString('en-IN')} ${topic.unit})` },
+    { q:`Q2. Which state/item had the lowest ${topic.label.toLowerCase()} in ${years[2]}?`,
+      a:`${rows[minIdx].name} (${vals[minIdx].toLocaleString('en-IN')} ${topic.unit})` },
+    { q:`Q3. What is the total ${topic.label.toLowerCase()} of all five items in ${years[2]}?`,
+      a:`${totalYr3.toLocaleString('en-IN')} ${topic.unit}` },
+    { q:`Q4. What is the average ${topic.label.toLowerCase()} of all five items in ${years[2]}?`,
+      a:`${avgYr3.toFixed(1)} ${topic.unit}` },
+    { q:`Q5. What is the ratio of ${rows[0].name} to ${rows[1].name} in ${years[2]}?`,
+      a:`${ratioAns}` },
   ];
-  html+=`<div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.75rem;">📝 Practice Questions</div>`;
-  questions.forEach(({q,a})=>{
-    html+=`<div style="margin-bottom:0.9rem;padding:0.85rem 1rem;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;">
+
+  const mediumQs = [
+    ...easyQs.slice(0,2),
+    { q:`Q3. By how much did the ${topic.label.toLowerCase()} of ${rows[1].name} change from ${years[1]} to ${years[2]}?`,
+      a:`${yoyStr} ${topic.unit}` },
+    { q:`Q4. What percentage of the total (${years[2]}) does ${rows[0].name} account for?`,
+      a:`${sharePct}%` },
+    { q:`Q5. What is the approximate difference between the highest and lowest values in ${years[2]}?`,
+      a:`${(vals[maxIdx]-vals[minIdx]).toLocaleString('en-IN')} ${topic.unit}` },
+  ];
+
+  const hardQs = [
+    { q:`Q1. What is the percentage increase in ${rows[0].name}'s ${topic.label.toLowerCase()} from ${years[0]} to ${years[2]}?`,
+      a:`${growthPct}%` },
+    { q:`Q2. If the values in ${years[2]} were to grow at the same absolute rate as ${years[0]}→${years[1]}, what would be ${rows[2].name}'s value in the next year?`,
+      a:`${(r2v[2] + (r2v[1]-r2v[0])).toLocaleString('en-IN')} ${topic.unit} (approx)` },
+    { q:`Q3. Which item showed the highest absolute growth from ${years[0]} to ${years[2]}?`,
+      a:`${rows.reduce((best,r)=>((r.vals[2]-r.vals[0])>(best.vals[2]-best.vals[0]))?r:best).name}` },
+    { q:`Q4. What is the combined share of the top 2 items (by ${years[2]} value) as a percentage of total?`,
+      a:`${(([...vals].sort((a,b)=>b-a).slice(0,2).reduce((s,v)=>s+v,0)/totalYr3)*100).toFixed(2)}%` },
+    { q:`Q5. What is the ratio of total ${years[0]} to total ${years[2]} for all five items?`,
+      a:`${(()=>{const g2=gcd(Math.round(totalYr1),Math.round(totalYr3));return Math.round(totalYr1/g2)+' : '+Math.round(totalYr3/g2);})()}` },
+  ];
+
+  const questions = diff === 'easy' ? easyQs : diff === 'medium' ? mediumQs : hardQs;
+
+  html += `<div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.75rem;">📝 Practice Questions (${diff.charAt(0).toUpperCase()+diff.slice(1)} Level)</div>`;
+  questions.forEach(({q,a},i)=>{
+    html += `<div style="margin-bottom:0.85rem;padding:0.8rem 1rem;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;">
       <div style="font-size:0.82rem;color:var(--text-white);margin-bottom:0.5rem;font-weight:500;">${q}</div>
-      <div style="font-size:0.75rem;color:#16A34A;font-family:'JetBrains Mono',monospace;font-weight:600;">▶ Answer: ${a}</div>
+      <details style="margin-top:0.2rem;">
+        <summary style="font-size:0.72rem;color:#1D4ED8;font-weight:600;cursor:pointer;list-style:none;">▶ Show Answer</summary>
+        <div style="margin-top:0.4rem;font-size:0.78rem;color:#16A34A;font-family:'JetBrains Mono',monospace;font-weight:700;padding:0.4rem 0.6rem;background:rgba(22,163,74,0.06);border-radius:6px;">${a}</div>
+      </details>
     </div>`;
   });
+
+  html += `<div style="margin-top:0.5rem;padding:0.6rem 0.8rem;background:rgba(29,78,216,0.04);border-radius:8px;font-size:0.7rem;color:var(--text-dim);">
+    ⚠️ Data is based on approximate government figures for practice purposes only. Exact values may vary from official publications.
+  </div>`;
+
   document.getElementById('di_content').innerHTML = html;
   document.getElementById('di_result').classList.add('show');
 }
+
 
 // Initialise quant and formula forms on first open
 document.addEventListener('DOMContentLoaded', () => {});
