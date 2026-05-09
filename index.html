@@ -631,7 +631,68 @@ footer { position:relative; z-index:1; background:#0F172A; border-top:1px solid 
 .footer-grid { display:grid; grid-template-columns:1.5fr 1fr 1.8fr 1.5fr; gap:3rem; max-width:var(--max); margin:0 auto 3rem; }
 .footer-brand-logo { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:800; color:#FFFFFF; margin-bottom:0.7rem; }
 .footer-brand-tagline { font-size:0.8rem; color:#CBD5E1; line-height:1.7; max-width:220px; margin-bottom:1.5rem; }
-.footer-social { display:flex; gap:0.6rem; }
+.nav-share-btn {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  background: linear-gradient(135deg, #1D4ED8, #4F46E5);
+  color: #fff; border: none; border-radius: 8px;
+  font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  font-family: inherit; letter-spacing: 0.01em;
+}
+.nav-share-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.nav-share-btn-mobile { display: none; }
+
+/* Share dropdown */
+.share-dropdown {
+  position: absolute; top: calc(100% + 10px); right: 0;
+  background: var(--card-bg, #fff);
+  border: 1px solid rgba(15,23,42,0.10);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(15,23,42,0.14);
+  padding: 0.65rem 0.5rem;
+  min-width: 190px; z-index: 9999;
+  opacity: 0; pointer-events: none;
+  transform: translateY(6px) scale(0.97);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+html.dark .share-dropdown {
+  background: #1E293B;
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.share-dropdown.open {
+  opacity: 1; pointer-events: all;
+  transform: translateY(0) scale(1);
+}
+.share-dropdown-title {
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-dim, #94A3B8);
+  padding: 0.1rem 0.6rem 0.5rem;
+  border-bottom: 1px solid rgba(15,23,42,0.07);
+  margin-bottom: 0.35rem;
+}
+html.dark .share-dropdown-title { border-color: rgba(255,255,255,0.07); }
+.share-option {
+  display: flex; align-items: center; gap: 0.7rem;
+  padding: 0.55rem 0.65rem; border-radius: 8px;
+  font-size: 0.82rem; font-weight: 500;
+  color: var(--text-white, #0F172A); cursor: pointer;
+  transition: background 0.15s; text-decoration: none;
+}
+html.dark .share-option { color: #f0f4ff; }
+.share-option:hover { background: rgba(29,78,216,0.07); }
+html.dark .share-option:hover { background: rgba(255,255,255,0.07); }
+.share-icon {
+  width: 28px; height: 28px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .nav-share-btn-mobile { display: flex; }
+}
 .social-btn { width:36px; height:36px; border-radius:8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:0.85rem; transition:all 0.2s; cursor:pointer; }
 .social-btn:hover { background:rgba(255,255,255,0.12); }
 .footer-col-title { font-size:0.68rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#64748B; margin-bottom:1.2rem; }
@@ -860,6 +921,60 @@ html.dark .affiliate-offer { background: rgba(16,217,180,0.06); border-color: rg
 .aff-btn-green:hover { background: #15803D; transform: translateY(-1px); }
 .aff-btn-gold { background: linear-gradient(135deg, #F59E0B, #e08b10); color: #0F172A; box-shadow: 0 4px 14px rgba(245,158,11,0.25); }
 .aff-btn-gold:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(245,158,11,0.35); }
+.aff-inline-banner {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 14px; border: 1.5px solid;
+  margin: 1.5rem 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s;
+  position: relative; overflow: hidden;
+}
+.aff-inline-banner::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.06));
+  pointer-events: none;
+}
+.aff-inline-banner:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.10); }
+.aff-inline-blue  { background: rgba(29,78,216,0.05);  border-color: rgba(29,78,216,0.18); }
+.aff-inline-gold  { background: rgba(245,158,11,0.06); border-color: rgba(245,158,11,0.22); }
+.aff-inline-green { background: rgba(22,163,74,0.05);  border-color: rgba(22,163,74,0.18); }
+html.dark .aff-inline-blue  { background: rgba(29,78,216,0.10);  border-color: rgba(29,78,216,0.25); }
+html.dark .aff-inline-gold  { background: rgba(245,158,11,0.09); border-color: rgba(245,158,11,0.28); }
+html.dark .aff-inline-green { background: rgba(22,163,74,0.09);  border-color: rgba(22,163,74,0.25); }
+.aff-inline-icon {
+  font-size: 1.6rem; flex-shrink: 0;
+  width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
+  border-radius: 10px; background: rgba(255,255,255,0.6);
+}
+html.dark .aff-inline-icon { background: rgba(255,255,255,0.07); }
+.aff-inline-body { flex: 1; min-width: 0; }
+.aff-inline-name {
+  font-size: 0.88rem; font-weight: 700;
+  color: var(--text-white, #0F172A); margin-bottom: 0.2rem;
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+}
+.aff-inline-badge {
+  font-size: 0.55rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 0.15rem 0.45rem;
+  background: rgba(148,163,184,0.15); color: #94A3B8;
+  border-radius: 4px; border: 1px solid rgba(148,163,184,0.2);
+}
+.aff-inline-desc {
+  font-size: 0.75rem; color: var(--text-dim, #64748B); line-height: 1.5;
+}
+.aff-inline-cta {
+  font-size: 0.78rem; font-weight: 700; white-space: nowrap; flex-shrink: 0;
+  padding: 0.45rem 0.9rem; border-radius: 8px; color: #fff;
+}
+.aff-inline-blue  .aff-inline-cta { background: #1D4ED8; }
+.aff-inline-gold  .aff-inline-cta { background: #D97706; }
+.aff-inline-green .aff-inline-cta { background: #16A34A; }
+@media (max-width: 480px) {
+  .aff-inline-banner { flex-wrap: wrap; gap: 0.7rem; padding: 0.8rem 1rem; }
+  .aff-inline-cta { width: 100%; text-align: center; padding: 0.55rem; }
+}
 .aff-disclaimer { font-size: 0.65rem; color: #94A3B8; text-align: center; margin-top: 2rem; font-style: italic; }
 html.dark .aff-disclaimer { color: rgba(240,244,255,0.25); }
 
@@ -1064,10 +1179,47 @@ html.dark .data-disclaimer { background:rgba(245,158,11,0.08); border-color:rgba
         <span class="toggle-label" id="toggleLabel">Light</span>
       </button>
     </li>
+    <li style="position:relative;">
+      <button class="nav-share-btn" onclick="toggleShareMenu(event)" aria-label="Share CrackCalc">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Share
+      </button>
+      <div class="share-dropdown" id="shareDropdown">
+        <div class="share-dropdown-title">Share CrackCalc 🚀</div>
+        <a class="share-option" onclick="shareWhatsApp()">
+          <span class="share-icon" style="background:#25D366;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </span>
+          WhatsApp
+        </a>
+        <a class="share-option" onclick="shareTwitter()">
+          <span class="share-icon" style="background:#000;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.26 5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </span>
+          X (Twitter)
+        </a>
+        <a class="share-option" onclick="shareTelegram()">
+          <span class="share-icon" style="background:#229ED9;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          </span>
+          Telegram
+        </a>
+        <a class="share-option" onclick="copyLink()">
+          <span class="share-icon" style="background:#6366F1;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </span>
+          <span id="copyLinkLabel">Copy Link</span>
+        </a>
+      </div>
+    </li>
     <li><a href="#score" class="nav-cta-btn">Open a Calculator →</a></li>
   </ul>
   <!-- Mobile right side -->
   <div class="nav-mobile-right">
+    <button class="nav-share-btn nav-share-btn-mobile" onclick="mobileShare()" aria-label="Share CrackCalc">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      Share
+    </button>
     <button class="theme-toggle" id="themeToggleMobile" onclick="toggleTheme()" aria-label="Toggle dark mode" style="padding:0.25rem 0.6rem 0.25rem 0.35rem;">
       <div class="toggle-track"><div class="toggle-thumb"></div></div>
       <span class="toggle-label" id="toggleLabelMobile">Light</span>
@@ -1274,6 +1426,16 @@ html.dark .data-disclaimer { background:rgba(245,158,11,0.08); border-color:rgba
 
     </div>
 
+    <!-- ── AFFILIATE BANNER 1: After Score tools → Mock Tests ── -->
+    <a href="https://testbook.com/?ref=YOUR_ID" target="_blank" rel="noopener sponsored" class="aff-inline-banner aff-inline-blue reveal">
+      <div class="aff-inline-icon">📝</div>
+      <div class="aff-inline-body">
+        <div class="aff-inline-name">Testbook Pro <span class="aff-inline-badge">Sponsored</span></div>
+        <div class="aff-inline-desc">Practice with 10,000+ mock tests for SSC, Banking & Railways — with detailed score analysis.</div>
+      </div>
+      <div class="aff-inline-cta">Get 30% Off →</div>
+    </a>
+
     <!-- CATEGORY 2: ELIGIBILITY & PLANNING -->
     <div class="tools-category-label reveal" id="study" style="margin-top:3rem;">📋 Eligibility &amp; Planning</div>
     <div class="tools-grid reveal rd1">
@@ -1306,6 +1468,16 @@ html.dark .data-disclaimer { background:rgba(245,158,11,0.08); border-color:rgba
       </div>
 
     </div>
+
+    <!-- ── AFFILIATE BANNER 2: After Planning tools → Courses ── -->
+    <a href="https://unacademy.com/?ref=YOUR_ID" target="_blank" rel="noopener sponsored" class="aff-inline-banner aff-inline-gold reveal">
+      <div class="aff-inline-icon">🎓</div>
+      <div class="aff-inline-body">
+        <div class="aff-inline-name">Unacademy Plus <span class="aff-inline-badge">Sponsored</span></div>
+        <div class="aff-inline-desc">Live classes by top educators for UPSC, SSC & Banking — structured courses with doubt-solving.</div>
+      </div>
+      <div class="aff-inline-cta">Claim ₹500 →</div>
+    </a>
 
     <!-- CATEGORY 3: STUDY & PERFORMANCE -->
     <div class="tools-category-label reveal" style="margin-top:3rem;" id="quant">📚 Study &amp; Performance</div>
@@ -1358,14 +1530,24 @@ html.dark .data-disclaimer { background:rgba(245,158,11,0.08); border-color:rgba
 
     </div>
 
+    <!-- ── AFFILIATE BANNER 3: After Study tools → Books ── -->
+    <a href="https://www.amazon.in/s?k=ssc+upsc+banking+books&tag=YOUR_AMAZON_ID" target="_blank" rel="noopener sponsored" class="aff-inline-banner aff-inline-green reveal">
+      <div class="aff-inline-icon">📚</div>
+      <div class="aff-inline-body">
+        <div class="aff-inline-name">Amazon Study Books <span class="aff-inline-badge">Sponsored</span></div>
+        <div class="aff-inline-desc">Best-selling SSC, UPSC & Banking books — Arihant, Disha, RS Aggarwal at up to 40% off.</div>
+      </div>
+      <div class="aff-inline-cta">Shop Books →</div>
+    </a>
+
     <!-- CATEGORY 4: FORMULA & RANK -->
     <div class="tools-category-label reveal" style="margin-top:3rem;">🧮 Formula &amp; Rank Tools</div>
     <div class="tools-grid reveal rd1">
 
-      <div class="tool-card" onclick="openModal('formulaLookup')">
-        <div class="tool-icon ti-rose">📐</div>
-        <div class="tool-name">Formula Lookup + Solver</div>
-        <div class="tool-desc">Pick a topic (percentage, ratio, SI/CI) — see formula, plug in numbers, get solved output with each step shown.</div>
+      <div class="tool-card" onclick="openModal('attemptStrategy')">
+        <div class="tool-icon ti-rose">🎯</div>
+        <div class="tool-name">Attempt Strategy Calculator</div>
+        <div class="tool-desc">Enter your accuracy & time per question — get the exact number of questions to attempt per section to maximise your score with negative marking.</div>
         <div class="tool-cta-row">
           <span class="tool-link">Open Calculator →</span>
         </div>
@@ -1656,7 +1838,7 @@ html.dark .data-disclaimer { background:rgba(245,158,11,0.08); border-color:rgba
         <li><a href="#" onclick="openModal('spacedRepetition');return false;">Spaced Repetition</a></li>
         <li><a href="#" onclick="openModal('govtSalary');return false;">Govt Salary</a></li>
         <li><a href="#" onclick="openModal('accuracySpeed');return false;">Accuracy Analyzer</a></li>
-        <li><a href="#" onclick="openModal('formulaLookup');return false;">Formula Solver</a></li>
+        <li><a href="#" onclick="openModal('attemptStrategy');return false;">Attempt Strategy</a></li>
         <li><a href="#" onclick="openModal('rankVacancy');return false;">Rank vs Vacancy</a></li>
         <li><a href="#" onclick="openModal('diTable');return false;">DI Generator</a></li>
       </ul>
@@ -2140,9 +2322,28 @@ const modals = {
     <div class="modal-title">Spaced Repetition Planner</div>
     <div class="modal-subtitle">Without revision, you forget <strong>70% of new material within 24 hours</strong>. This planner tells you <em>exactly</em> when to revise each topic so it sticks forever.</div>
 
-    <div class="form-group">
-      <label class="form-label">📚 Topic You Studied</label>
-      <input type="text" class="form-input" id="sr_topic" placeholder="e.g. Percentages, Polity Ch.3, Newton's Laws…">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🎯 Exam You're Preparing For</label>
+        <select class="form-select" id="sr_exam">
+          <option value="ssc">SSC CGL / CHSL / MTS</option>
+          <option value="banking">IBPS PO / SBI PO / Clerk</option>
+          <option value="railway">RRB NTPC / Group D</option>
+          <option value="upsc">UPSC CSE / State PSC</option>
+          <option value="defence">CDS / NDA / AFCAT</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📚 Subject / Section</label>
+        <select class="form-select" id="sr_subject">
+          <option value="quant">Quantitative Aptitude</option>
+          <option value="reasoning">Reasoning & Logic</option>
+          <option value="english">English Language</option>
+          <option value="gk">General Awareness / GK</option>
+          <option value="gs">General Studies (UPSC)</option>
+          <option value="current">Current Affairs</option>
+        </select>
+      </div>
     </div>
     <div class="form-row">
       <div class="form-group">
@@ -2163,7 +2364,7 @@ const modals = {
 
     <div class="result-box" id="sr_result">
       <div class="result-label">🧠 Your Revision Plan</div>
-      <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text-white);margin-bottom:0.3rem;" id="sr_topic_out">—</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text-white);margin-bottom:0.3rem;" id="sr_topic_out">—</div>
       <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:1.2rem;" id="sr_studied_on"></div>
 
       <!-- Forgetting curve visual -->
@@ -2262,30 +2463,86 @@ const modals = {
       <div class="result-note" id="as_note"></div>
     </div>`,
 
-  formulaLookup: () => `
+  attemptStrategy: () => `
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-icon ti-rose">📐</div>
-    <div class="modal-title">Formula Lookup + Solver</div>
-    <div class="modal-subtitle">Pick a topic, see the formula, plug in numbers and get step-by-step solved output.</div>
-    <div class="form-group">
-      <label class="form-label">Topic</label>
-      <select class="form-select" id="fl_topic" onchange="updateFormulaForm()">
-        <option value="percent_of">Percentage — X% of Y</option>
-        <option value="percent_change">Percentage Change</option>
-        <option value="ratio_simplify">Ratio Simplification</option>
-        <option value="avg">Average</option>
-        <option value="time_work">Time &amp; Work (Combined Rate)</option>
-      </select>
+    <div class="modal-icon ti-rose">🎯</div>
+    <div class="modal-title">Attempt Strategy Calculator</div>
+    <div class="modal-subtitle">The #1 secret toppers use — attempt <em>fewer</em> questions with higher accuracy and score <em>more</em>. Find your perfect attempt count instantly.</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">📋 Exam Pattern</label>
+        <select class="form-select" id="as2_exam" onchange="as2UpdatePattern()">
+          <option value="ssc_cgl">SSC CGL Tier-1</option>
+          <option value="ssc_chsl">SSC CHSL Tier-1</option>
+          <option value="ibps_po">IBPS PO Prelims</option>
+          <option value="sbi_po">SBI PO Prelims</option>
+          <option value="ibps_clerk">IBPS Clerk Prelims</option>
+          <option value="rrb_ntpc">RRB NTPC CBT-1</option>
+          <option value="custom">Custom Exam</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">➖ Negative Marking</label>
+        <select class="form-select" id="as2_neg">
+          <option value="0.25">−0.25 per wrong (SSC/RRB)</option>
+          <option value="0.33">−0.33 per wrong (1/3)</option>
+          <option value="0.5">−0.5 per wrong (Banking)</option>
+          <option value="1">−1 per wrong (Full)</option>
+          <option value="0">No negative marking</option>
+        </select>
+      </div>
     </div>
-    <div id="fl_form"></div>
-    <button class="calc-btn" onclick="calcFormula()">Solve Step by Step →</button>
-    <div class="result-box" id="fl_result">
-      <div class="result-label">Formula Used</div>
-      <div id="fl_formula" style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--primary);margin-bottom:1rem;padding:0.75rem;background:rgba(29,78,216,0.06);border-radius:8px;"></div>
-      <div class="result-label">Answer</div>
-      <div class="result-value" id="fl_ans">—</div>
-      <div class="result-note" style="font-weight:500;margin-top:1rem;font-size:0.82rem;">📝 Step-by-step:</div>
-      <ul class="step-list" id="fl_steps"></ul>
+
+    <div id="as2_pattern_info" style="padding:0.6rem 0.9rem;background:rgba(29,78,216,0.06);border:1px solid rgba(29,78,216,0.15);border-radius:8px;font-size:0.75rem;color:var(--text-muted);margin-bottom:1.2rem;line-height:1.6;"></div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">❓ Total Questions</label>
+        <input type="number" class="form-input" id="as2_total" placeholder="e.g. 100" min="1">
+      </div>
+      <div class="form-group">
+        <label class="form-label">⏱️ Time Available (mins)</label>
+        <input type="number" class="form-input" id="as2_time" placeholder="e.g. 60" min="1">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">🎯 Your Accuracy % <span style="font-weight:400;color:var(--text-dim);">(honest estimate)</span></label>
+        <input type="number" class="form-input" id="as2_acc" placeholder="e.g. 70" min="1" max="100">
+      </div>
+      <div class="form-group">
+        <label class="form-label">⏱️ Avg Time per Question (secs)</label>
+        <input type="number" class="form-input" id="as2_tpq" placeholder="e.g. 45" min="5">
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calcAttemptStrategy()">🎯 Calculate My Optimal Strategy →</button>
+
+    <div class="result-box" id="as2_result">
+      <!-- Hero result -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.2rem;">
+        <div style="text-align:center;padding:1rem 0.5rem;background:rgba(22,163,74,0.08);border:1.5px solid rgba(22,163,74,0.25);border-radius:12px;">
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;color:#16A34A;" id="as2_optimal">—</div>
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#16A34A;margin-top:0.2rem;">Optimal Attempts</div>
+        </div>
+        <div style="text-align:center;padding:1rem 0.5rem;background:rgba(29,78,216,0.07);border:1.5px solid rgba(29,78,216,0.2);border-radius:12px;">
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;color:#1D4ED8;" id="as2_expscore">—</div>
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1D4ED8;margin-top:0.2rem;">Expected Score</div>
+        </div>
+      </div>
+
+      <!-- Score comparison chart -->
+      <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.5rem;">📊 Score vs Attempts (at your accuracy)</div>
+      <svg id="as2_chart" viewBox="0 0 520 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:10px;margin-bottom:1rem;"></svg>
+
+      <!-- Section-wise breakdown -->
+      <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.6rem;">📋 Section-wise Target</div>
+      <div id="as2_sections" style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem;"></div>
+
+      <!-- Tips -->
+      <div id="as2_tips" style="padding:0.8rem 1rem;background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);border-radius:10px;font-size:0.78rem;color:var(--text-muted);line-height:1.7;"></div>
     </div>`,
 
   rankVacancy: () => `
@@ -2722,90 +2979,107 @@ function calcCutoffSafety() {
 
 // SPACED REPETITION
 function calcSpacedRepetition() {
-  const topic   = document.getElementById('sr_topic').value.trim();
+  const exam    = document.getElementById('sr_exam').value;
+  const subject = document.getElementById('sr_subject').value;
   const dateVal = document.getElementById('sr_date').value;
   const diff    = document.getElementById('sr_diff').value;
-  if (!topic)   { alert('Please enter a topic name.'); return; }
   if (!dateVal) { alert('Please select the date you studied this topic.'); return; }
 
   const base = new Date(dateVal);
   base.setHours(0,0,0,0);
   const today = new Date(); today.setHours(0,0,0,0);
 
-  // Scientifically-calibrated intervals (days after study date)
-  // Hard = more frequent, Easy = longer gaps
-  const config = {
-    easy:   { intervals:[1, 3, 7, 21, 60], retentions:[85,90,92,95,98], tip:'Great start! Longer gaps are fine since you grasped it well.' },
-    medium: { intervals:[1, 3, 7, 14, 30], retentions:[80,85,88,92,96], tip:'Revise actively — close the book and recall before checking.' },
-    hard:   { intervals:[1, 2, 4,  7, 21], retentions:[70,78,83,88,95], tip:'Use flashcards or write short notes. Frequent revision is key!' }
-  };
-  const { intervals, retentions, tip } = config[diff];
+  // Exam labels
+  const examLabels    = { ssc:'SSC', banking:'Banking', railway:'Railways', upsc:'UPSC', defence:'Defence' };
+  const subjectLabels = { quant:'Quant', reasoning:'Reasoning', english:'English', gk:'GK', gs:'General Studies', current:'Current Affairs' };
 
-  const ordinals  = ['1st','2nd','3rd','4th','5th'];
-  const purposes  = [
-    'Same-night recall — strengthens initial memory',
-    'Short-term check — catch what faded overnight',
+  // Subject volatility: current affairs fades fastest, GS/quant stays longer
+  // volatility multiplier on intervals (1 = standard, <1 = compress intervals, >1 = stretch)
+  const subjectMult = { quant:1.1, reasoning:1.0, english:0.9, gk:0.85, gs:1.15, current:0.6 };
+
+  // Exam urgency: UPSC needs deep long-term retention (longer final gaps),
+  // SSC/Banking need tight short-term revision (denser early intervals)
+  const examMult = { ssc:0.85, banking:0.85, railway:0.9, upsc:1.2, defence:0.95 };
+
+  const mult = subjectMult[subject] * examMult[exam];
+
+  // Base intervals (days) per difficulty, then scaled by exam+subject
+  const baseIntervals = {
+    easy:   [1, 3, 7, 21, 60],
+    medium: [1, 3, 7, 14, 30],
+    hard:   [1, 2, 4,  7, 21]
+  };
+  const retentions = {
+    easy:   [85,90,92,95,98],
+    medium: [80,85,88,92,96],
+    hard:   [70,78,83,88,95]
+  };
+
+  // Apply multiplier to intervals 2–5 (keep day-1 always as 1)
+  const intervals = baseIntervals[diff].map((d, i) =>
+    i === 0 ? 1 : Math.max(i+1, Math.round(d * mult))
+  );
+
+  const tips = {
+    ssc:     { easy:'SSC tests speed — do 10 rapid-fire questions on this topic each revision.', medium:'Practice this topic in timed mock sections to build exam speed.', hard:'This is a high-weightage topic for SSC. Use shortcut tricks and revise formulae daily.' },
+    banking: { easy:'Banks repeat DI & puzzle patterns — link this to past paper questions.', medium:'Attempt 5 bank-level questions on this topic at each revision.', hard:'Banking exams have strict cutoffs. Focus on accuracy over speed for this topic.' },
+    railway: { easy:'RRB rewards consistency — attempt previous year questions each revision.', medium:'Combine revision with RRB PYQ practice for this section.', hard:'Prioritise this — RRB has direct questions from this area. Revise formulae daily.' },
+    upsc:    { easy:'UPSC needs depth — write a 5-line answer from memory at each revision.', medium:'Link this topic to current affairs and make a one-page revision note.', hard:'This is a conceptually dense topic. Use mind maps and revise with past UPSC questions.' },
+    defence: { easy:'Defence exams test basics — solve 5 MCQs on this each revision session.', medium:'Mix revision with NDA/CDS past paper questions to reinforce this topic.', hard:'Use flashcards for this topic. Defence exams reward those who master fundamentals.' }
+  };
+  const tip = tips[exam][diff];
+
+  const purposes = [
+    'Same-night recall — locks it into short-term memory',
+    'Next-day check — catch what faded overnight',
     'Week review — moves info to medium-term memory',
     'Consolidation — cements it in long-term storage',
     'Final lock-in — should now stay for months!'
   ];
+  const ordinals = ['1st','2nd','3rd','4th','5th'];
 
-  // ── Output header ──
-  document.getElementById('sr_topic_out').textContent = '📖 ' + topic;
-  const studiedStr = base.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-  document.getElementById('sr_studied_on').textContent = `Studied on: ${studiedStr}`;
+  // Result header
+  document.getElementById('sr_topic_out').textContent =
+    `${examLabels[exam]} · ${subjectLabels[subject]}`;
+  const studiedStr = base.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('sr_studied_on').textContent = `Studied on: ${studiedStr} · ${diff.charAt(0).toUpperCase()+diff.slice(1)} difficulty`;
 
   // ── Forgetting curve SVG ──
   const svgEl = document.getElementById('sr_curve');
-  const W=520, H=130, padL=40, padR=10, padT=14, padB=24;
-  const gW=W-padL-padR, gH=H-padT-padB;
+  const W=520,H=130,padL=40,padR=10,padT=14,padB=24;
+  const gW=W-padL-padR,gH=H-padT-padB;
+  const totalDays = intervals[4]+5;
+  const decay = t => Math.max(5, Math.round(100*Math.exp(-t/(diff==='easy'?2.2:diff==='medium'?1.6:1.1))));
+  const xOf = d => padL+(d/totalDays)*gW;
+  const yOf = pct => padT+gH-(pct/100)*gH;
 
-  // Decay without revision: R(t) = e^(-t/S), S≈1.5 day for new memory
-  const totalDays = intervals[4] + 5;
-  const decay = t => Math.max(5, Math.round(100 * Math.exp(-t / (diff==='easy'?2.2:diff==='medium'?1.6:1.1))));
+  let decayPath=`M${xOf(0)},${yOf(100)}`;
+  for(let t=1;t<=totalDays;t++) decayPath+=` L${xOf(t)},${yOf(decay(t))}`;
 
-  // X/Y helpers
-  const xOf = d => padL + (d/totalDays)*gW;
-  const yOf = pct => padT + gH - (pct/100)*gH;
-
-  // Build decay path
-  let decayPath = `M${xOf(0)},${yOf(100)}`;
-  for(let t=1; t<=totalDays; t++) decayPath += ` L${xOf(t)},${yOf(decay(t))}`;
-
-  // Build "with revision" stepped path — retention resets at each revision
-  let revPath = `M${xOf(0)},${yOf(100)}`;
-  let prev = 0;
-  intervals.forEach((day, i) => {
-    // decay from previous revision until this one
-    for(let t=prev+1; t<=day; t++) {
-      const daysSinceLastRev = t - prev;
-      const baseRet = i===0 ? 100 : retentions[i-1];
-      const r = Math.max(baseRet*0.5, baseRet * Math.exp(-daysSinceLastRev/(diff==='easy'?2.5:diff==='medium'?1.8:1.3)));
-      revPath += ` L${xOf(t)},${yOf(Math.round(r))}`;
+  let revPath=`M${xOf(0)},${yOf(100)}`;
+  let prev=0;
+  intervals.forEach((day,i)=>{
+    for(let t=prev+1;t<=day;t++){
+      const dsr=t-prev, baseRet=i===0?100:retentions[diff][i-1];
+      const r=Math.max(baseRet*0.5,baseRet*Math.exp(-dsr/(diff==='easy'?2.5:diff==='medium'?1.8:1.3)));
+      revPath+=` L${xOf(t)},${yOf(Math.round(r))}`;
     }
-    // spike back up after revision
-    revPath += ` L${xOf(day)},${yOf(retentions[i])}`;
-    prev = day;
+    revPath+=` L${xOf(day)},${yOf(retentions[diff][i])}`;
+    prev=day;
   });
-  // continue after last revision
-  for(let t=prev+1; t<=totalDays; t++) {
-    const daysSince = t - prev;
-    const r = Math.max(retentions[4]*0.6, retentions[4] * Math.exp(-daysSince/4));
-    revPath += ` L${xOf(t)},${yOf(Math.round(r))}`;
+  for(let t=prev+1;t<=totalDays;t++){
+    const r=Math.max(retentions[diff][4]*0.6,retentions[diff][4]*Math.exp(-(t-prev)/4));
+    revPath+=` L${xOf(t)},${yOf(Math.round(r))}`;
   }
 
-  // Revision day markers
-  const markers = intervals.map((d,i) =>
-    `<circle cx="${xOf(d)}" cy="${yOf(retentions[i])}" r="4" fill="#16A34A" stroke="#fff" stroke-width="1.5"/>`
+  const markers=intervals.map((d,i)=>
+    `<circle cx="${xOf(d)}" cy="${yOf(retentions[diff][i])}" r="4" fill="#16A34A" stroke="#fff" stroke-width="1.5"/>`
   ).join('');
-
-  // Y axis labels
-  const yLabels = [0,25,50,75,100].map(v =>
+  const yLabels=[0,25,50,75,100].map(v=>
     `<text x="${padL-6}" y="${yOf(v)+4}" text-anchor="end" font-size="9" fill="#94A3B8">${v}%</text>
      <line x1="${padL}" y1="${yOf(v)}" x2="${W-padR}" y2="${yOf(v)}" stroke="#E2E8F0" stroke-width="0.5"/>`
   ).join('');
-
-  svgEl.innerHTML = `
+  svgEl.innerHTML=`
     <rect width="${W}" height="${H}" rx="8" fill="#F8FAFC"/>
     ${yLabels}
     <path d="${decayPath}" fill="none" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.5"/>
@@ -2817,30 +3091,20 @@ function calcSpacedRepetition() {
   `;
 
   // ── Revision cards ──
-  const cardContainer = document.getElementById('sr_cards');
-  const diffDay = ms => Math.round(ms / 86400000);
-  cardContainer.innerHTML = intervals.map((days, i) => {
-    const revDate = new Date(base);
-    revDate.setDate(revDate.getDate() + days);
-    const daysFromToday = diffDay(revDate - today);
-    const isPast   = daysFromToday < 0;
-    const isToday  = daysFromToday === 0;
-    const isTomorrow = daysFromToday === 1;
-
-    const urgency = isPast ? { bg:'rgba(239,68,68,0.07)',border:'rgba(239,68,68,0.25)',badge:'OVERDUE','badgeColor':'#EF4444' }
-                  : isToday ? { bg:'rgba(245,158,11,0.09)',border:'rgba(245,158,11,0.35)',badge:'TODAY!','badgeColor':'#B45309' }
-                  : isTomorrow ? { bg:'rgba(29,78,216,0.06)',border:'rgba(29,78,216,0.2)',badge:'TOMORROW','badgeColor':'#1D4ED8' }
-                  : { bg:'', border:'#E2E8F0', badge:'', badgeColor:'' };
-
-    const whenStr = isPast ? `${Math.abs(daysFromToday)} day${Math.abs(daysFromToday)>1?'s':''} ago`
-                  : isToday ? 'Today'
-                  : isTomorrow ? 'Tomorrow'
-                  : `In ${daysFromToday} days`;
-
-    const dateStr = revDate.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
-    const retPct = retentions[i];
-    const retColor = retPct>=90?'#16A34A':retPct>=80?'#B45309':'#EF4444';
-
+  const diffDay=ms=>Math.round(ms/86400000);
+  const cardContainer=document.getElementById('sr_cards');
+  cardContainer.innerHTML=intervals.map((days,i)=>{
+    const revDate=new Date(base); revDate.setDate(revDate.getDate()+days);
+    const dft=diffDay(revDate-today);
+    const isPast=dft<0,isToday=dft===0,isTomorrow=dft===1;
+    const urgency=isPast?{bg:'rgba(239,68,68,0.07)',border:'rgba(239,68,68,0.25)',badge:'OVERDUE',badgeColor:'#EF4444'}
+                 :isToday?{bg:'rgba(245,158,11,0.09)',border:'rgba(245,158,11,0.35)',badge:'TODAY!',badgeColor:'#B45309'}
+                 :isTomorrow?{bg:'rgba(29,78,216,0.06)',border:'rgba(29,78,216,0.2)',badge:'TOMORROW',badgeColor:'#1D4ED8'}
+                 :{bg:'',border:'#E2E8F0',badge:'',badgeColor:''};
+    const whenStr=isPast?`${Math.abs(dft)} day${Math.abs(dft)>1?'s':''} ago`:isToday?'Today':isTomorrow?'Tomorrow':`In ${dft} days`;
+    const dateStr=revDate.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+    const retPct=retentions[diff][i];
+    const retColor=retPct>=90?'#16A34A':retPct>=80?'#B45309':'#EF4444';
     return `<div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 0.9rem;background:${urgency.bg||'#F8FAFC'};border:1px solid ${urgency.border};border-radius:10px;">
       <div style="width:36px;height:36px;border-radius:50%;background:rgba(29,78,216,0.12);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:800;color:#1D4ED8;flex-shrink:0;">${i+1}</div>
       <div style="flex:1;min-width:0;">
@@ -2855,17 +3119,11 @@ function calcSpacedRepetition() {
   }).join('');
 
   // ── Summary strip ──
-  const nextRev = intervals.map((d,i) => {
-    const rd = new Date(base); rd.setDate(rd.getDate()+d);
-    return { date:rd, days: diffDay(rd-today), i };
-  }).filter(x => x.days >= 0);
-  const next = nextRev[0];
-  const nextStr = next
-    ? (next.days===0 ? `⚡ Your <strong>next revision is TODAY</strong>` : next.days===1 ? `📌 Your <strong>next revision is tomorrow</strong>` : `📌 Your <strong>${ordinals[next.i]} revision</strong> is in <strong>${next.days} days</strong>`)
-    : `✅ All revisions done! This topic is now in long-term memory.`;
-
-  document.getElementById('sr_summary').innerHTML =
-    `${nextStr}<br><span style="color:var(--text-dim);">💡 Tip: ${tip} After all 5 revisions, you should retain <strong>~${retentions[4]}%</strong> long-term.</span>`;
+  const nextRev=intervals.map((d,i)=>{const rd=new Date(base);rd.setDate(rd.getDate()+d);return{date:rd,days:diffDay(rd-today),i};}).filter(x=>x.days>=0);
+  const next=nextRev[0];
+  const nextStr=next?(next.days===0?`⚡ Your <strong>next revision is TODAY</strong>`:next.days===1?`📌 Your <strong>next revision is tomorrow</strong>`:`📌 Your <strong>${ordinals[next.i]} revision</strong> is in <strong>${next.days} days</strong>`):`✅ All revisions done! This topic is now in long-term memory.`;
+  document.getElementById('sr_summary').innerHTML=
+    `${nextStr}<br><span style="color:var(--text-dim);">💡 <strong>${examLabels[exam]} Tip:</strong> ${tip} After all 5 revisions, target <strong>~${retentions[diff][4]}%</strong> retention.</span>`;
 
   document.getElementById('sr_result').classList.add('show');
 }
@@ -3129,59 +3387,145 @@ function calcAccuracySpeed() {
   document.getElementById('as_result').classList.add('show');
 }
 
-// FORMULA LOOKUP
-function updateFormulaForm() {
-  const topic = document.getElementById('fl_topic').value;
-  const forms = {
-    percent_of: `<div class="form-row"><div class="form-group"><label class="form-label">Percentage (X%)</label><input type="number" class="form-input" id="fl_x" placeholder="15"></div><div class="form-group"><label class="form-label">of Number (Y)</label><input type="number" class="form-input" id="fl_y" placeholder="340"></div></div>`,
-    percent_change: `<div class="form-row"><div class="form-group"><label class="form-label">Original Value</label><input type="number" class="form-input" id="fl_orig" placeholder="200"></div><div class="form-group"><label class="form-label">New Value</label><input type="number" class="form-input" id="fl_new" placeholder="250"></div></div>`,
-    ratio_simplify: `<div class="form-row"><div class="form-group"><label class="form-label">First Number</label><input type="number" class="form-input" id="fl_a" placeholder="36"></div><div class="form-group"><label class="form-label">Second Number</label><input type="number" class="form-input" id="fl_b" placeholder="48"></div></div>`,
-    avg: `<div class="form-group"><label class="form-label">Numbers (comma separated)</label><input type="text" class="form-input" id="fl_nums" placeholder="12, 18, 24, 30, 36"></div>`,
-    time_work: `<div class="form-row"><div class="form-group"><label class="form-label">A can do work in (days)</label><input type="number" class="form-input" id="fl_a_days" placeholder="12"></div><div class="form-group"><label class="form-label">B can do work in (days)</label><input type="number" class="form-input" id="fl_b_days" placeholder="18"></div></div>`
-  };
-  document.getElementById('fl_form').innerHTML = forms[topic] || '';
-}
-function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
-function calcFormula() {
-  const topic = document.getElementById('fl_topic').value;
-  let ans, formula, steps = [];
-  if (topic === 'percent_of') {
-    const X = parseFloat(document.getElementById('fl_x')?.value)||0, Y = parseFloat(document.getElementById('fl_y')?.value)||0;
-    const result = (X*Y)/100;
-    ans = result.toFixed(2);
-    formula = 'Result = (X / 100) × Y';
-    steps = [`= (${X} / 100) × ${Y}`, `= ${X/100} × ${Y}`, `= ${result.toFixed(2)}`];
-  } else if (topic === 'percent_change') {
-    const orig = parseFloat(document.getElementById('fl_orig')?.value)||1, nv = parseFloat(document.getElementById('fl_new')?.value)||0;
-    const change = ((nv-orig)/orig*100).toFixed(2);
-    ans = `${change > 0 ? '+' : ''}${change}% (${parseFloat(change)>=0?'Increase':'Decrease'})`;
-    formula = 'Change% = ((New - Old) / Old) × 100';
-    steps = [`= ((${nv} - ${orig}) / ${orig}) × 100`, `= (${nv-orig} / ${orig}) × 100`, `= ${change}%`];
-  } else if (topic === 'ratio_simplify') {
-    const a = parseInt(document.getElementById('fl_a')?.value)||1, b = parseInt(document.getElementById('fl_b')?.value)||1;
-    const g = gcd(a, b);
-    ans = `${a/g} : ${b/g}`;
-    formula = 'Simplify using GCD (HCF)';
-    steps = [`GCD of ${a} and ${b} = ${g}`, `${a} ÷ ${g} = ${a/g}`, `${b} ÷ ${g} = ${b/g}`, `Simplified Ratio = ${a/g} : ${b/g}`];
-  } else if (topic === 'avg') {
-    const nums = (document.getElementById('fl_nums')?.value||'').split(',').map(n=>parseFloat(n.trim())).filter(n=>!isNaN(n));
-    const avg = (nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2);
-    ans = avg;
-    formula = 'Average = Sum of all numbers / Count';
-    steps = [`Numbers: ${nums.join(', ')}`, `Sum = ${nums.reduce((a,b)=>a+b,0)}`, `Count = ${nums.length}`, `Average = ${nums.reduce((a,b)=>a+b,0)} / ${nums.length} = ${avg}`];
-  } else if (topic === 'time_work') {
-    const aD = parseFloat(document.getElementById('fl_a_days')?.value)||1, bD = parseFloat(document.getElementById('fl_b_days')?.value)||1;
-    const together = (aD*bD)/(aD+bD);
-    ans = `${together.toFixed(2)} days together`;
-    formula = 'Together = (A × B) / (A + B)';
-    steps = [`A's rate = 1/${aD} per day`, `B's rate = 1/${bD} per day`, `Combined rate = 1/${aD} + 1/${bD} = ${(1/aD+1/bD).toFixed(4)}`, `Together = 1 / ${(1/aD+1/bD).toFixed(4)} = ${together.toFixed(2)} days`];
+// ATTEMPT STRATEGY CALCULATOR
+const as2Patterns = {
+  ssc_cgl:   { total:100, time:60,  neg:0.25, marks:2, sections:[{name:'General Intelligence & Reasoning',q:25},{name:'General Awareness',q:25},{name:'Quantitative Aptitude',q:25},{name:'English Comprehension',q:25}], info:'SSC CGL Tier-1 · 100 Qs · 60 min · +2/−0.5 · 4 sections of 25 each' },
+  ssc_chsl:  { total:100, time:60,  neg:0.25, marks:2, sections:[{name:'General Intelligence',q:25},{name:'General Awareness',q:25},{name:'Quantitative Aptitude',q:25},{name:'English Language',q:25}], info:'SSC CHSL Tier-1 · 100 Qs · 60 min · +2/−0.5 · 4 sections of 25 each' },
+  ibps_po:   { total:100, time:60,  neg:0.25, marks:1, sections:[{name:'English Language',q:30},{name:'Quantitative Aptitude',q:35},{name:'Reasoning Ability',q:35}], info:'IBPS PO Prelims · 100 Qs · 60 min · +1/−0.25 · 3 sections with individual timers' },
+  sbi_po:    { total:100, time:60,  neg:0.25, marks:1, sections:[{name:'English Language',q:30},{name:'Quantitative Aptitude',q:35},{name:'Reasoning Ability',q:35}], info:'SBI PO Prelims · 100 Qs · 60 min · +1/−0.25 · 3 sections with individual timers' },
+  ibps_clerk:{ total:100, time:60,  neg:0.25, marks:1, sections:[{name:'English Language',q:30},{name:'Numerical Ability',q:35},{name:'Reasoning Ability',q:35}], info:'IBPS Clerk Prelims · 100 Qs · 60 min · +1/−0.25 · 3 sections with individual timers' },
+  rrb_ntpc:  { total:100, time:90,  neg:0.33, marks:1, sections:[{name:'Mathematics',q:30},{name:'General Awareness',q:40},{name:'General Intelligence',q:30}], info:'RRB NTPC CBT-1 · 100 Qs · 90 min · +1/−0.33 · 3 sections' },
+  custom:    { total:null,time:null, neg:0.25, marks:1, sections:[], info:'Enter your exam details below.' }
+};
+
+function as2UpdatePattern() {
+  const exam = document.getElementById('as2_exam').value;
+  const p = as2Patterns[exam];
+  document.getElementById('as2_pattern_info').textContent = p.info;
+  if (exam !== 'custom') {
+    document.getElementById('as2_total').value = p.total;
+    document.getElementById('as2_time').value  = p.time;
+    // set neg marking
+    const negSel = document.getElementById('as2_neg');
+    const negVal = String(p.neg);
+    for (let opt of negSel.options) { if (opt.value === negVal) { negSel.value = negVal; break; } }
   }
-  if (!ans) { alert('Please fill all fields.'); return; }
-  document.getElementById('fl_formula').textContent = formula;
-  document.getElementById('fl_ans').textContent = ans;
-  document.getElementById('fl_steps').innerHTML = steps.map(s=>`<li>${s}</li>`).join('');
-  document.getElementById('fl_result').classList.add('show');
 }
+
+function calcAttemptStrategy() {
+  const total   = parseInt(document.getElementById('as2_total').value);
+  const timeMin = parseInt(document.getElementById('as2_time').value);
+  const acc     = parseFloat(document.getElementById('as2_acc').value) / 100;
+  const tpq     = parseInt(document.getElementById('as2_tpq').value);
+  const neg     = parseFloat(document.getElementById('as2_neg').value);
+  const exam    = document.getElementById('as2_exam').value;
+  const marks   = as2Patterns[exam]?.marks || 1;
+
+  if (!total||!timeMin||!acc||!tpq) { alert('Please fill all fields.'); return; }
+
+  const timeSecs    = timeMin * 60;
+  const maxByTime   = Math.floor(timeSecs / tpq);   // max attempts limited by time
+  const canAttempt  = Math.min(total, maxByTime);
+
+  // Score function: score(n) = n*acc*marks − n*(1−acc)*neg
+  const scoreOf = n => n * acc * marks - n * (1 - acc) * neg;
+
+  // Find optimal: sweep all attempt counts, pick the max score
+  let bestScore = -Infinity, bestN = 0;
+  for (let n = 1; n <= canAttempt; n++) {
+    const s = scoreOf(n);
+    if (s > bestScore) { bestScore = s; bestN = n; }
+  }
+
+  // Break-even accuracy: acc_min = neg / (marks + neg)
+  const breakEven = (neg / (marks + neg) * 100).toFixed(1);
+
+  document.getElementById('as2_optimal').textContent  = bestN;
+  document.getElementById('as2_expscore').textContent = bestScore.toFixed(1);
+
+  // ── Score vs Attempts SVG chart ──
+  const svgEl = document.getElementById('as2_chart');
+  const W=520,H=150,pL=45,pR=15,pT=15,pB=28,gW=W-pL-pR,gH=H-pT-pB;
+  const step    = Math.max(1, Math.floor(canAttempt/20));
+  const points  = [];
+  for (let n=0; n<=canAttempt; n+=step) points.push({n, s:scoreOf(n)});
+  if (points[points.length-1].n !== canAttempt) points.push({n:canAttempt, s:scoreOf(canAttempt)});
+  const maxS = Math.max(...points.map(p=>p.s));
+  const minS = Math.min(0, Math.min(...points.map(p=>p.s)));
+  const xOf  = n => pL + (n/canAttempt)*gW;
+  const yOf  = s => pT + gH - ((s-minS)/(maxS-minS||1))*gH;
+  const zero_y = yOf(0);
+
+  // path
+  let path = points.map((p,i)=>`${i===0?'M':'L'}${xOf(p.n).toFixed(1)},${yOf(p.s).toFixed(1)}`).join(' ');
+  // fill area above zero
+  let fillPath = path + ` L${xOf(canAttempt).toFixed(1)},${zero_y.toFixed(1)} L${xOf(0).toFixed(1)},${zero_y.toFixed(1)} Z`;
+
+  // optimal marker
+  const ox = xOf(bestN), oy = yOf(bestScore);
+
+  // y-axis labels
+  const ySteps = [minS, 0, maxS/2, maxS].filter((v,i,a)=>a.indexOf(v)===i).sort((a,b)=>a-b);
+  const yLabels = ySteps.map(v=>`<text x="${pL-5}" y="${yOf(v)+4}" text-anchor="end" font-size="9" fill="#94A3B8">${v.toFixed(0)}</text><line x1="${pL}" y1="${yOf(v)}" x2="${W-pR}" y2="${yOf(v)}" stroke="#E2E8F0" stroke-width="0.5"/>`).join('');
+
+  svgEl.innerHTML = `
+    <rect width="${W}" height="${H}" rx="8" fill="#F8FAFC"/>
+    ${yLabels}
+    <line x1="${pL}" y1="${zero_y}" x2="${W-pR}" y2="${zero_y}" stroke="#94A3B8" stroke-width="1" stroke-dasharray="3 2"/>
+    <path d="${fillPath}" fill="rgba(29,78,216,0.08)"/>
+    <path d="${path}" fill="none" stroke="#1D4ED8" stroke-width="2"/>
+    <circle cx="${ox}" cy="${oy}" r="6" fill="#16A34A" stroke="#fff" stroke-width="2"/>
+    <text x="${Math.min(ox+8,W-pR-40)}" y="${Math.max(oy-8,pT+12)}" font-size="9" fill="#16A34A" font-weight="700">Best: ${bestN}Q → ${bestScore.toFixed(1)}</text>
+    <text x="${W/2}" y="${H-4}" text-anchor="middle" font-size="9" fill="#94A3B8">Number of Questions Attempted →</text>
+    <text x="${pL-2}" y="${pT+8}" font-size="9" fill="#94A3B8">Score</text>
+  `;
+
+  // ── Section-wise targets ──
+  const p = as2Patterns[exam];
+  const secContainer = document.getElementById('as2_sections');
+  if (p && p.sections.length > 0) {
+    const totalQ  = p.sections.reduce((a,s)=>a+s.q,0);
+    secContainer.innerHTML = p.sections.map(sec => {
+      const ratio    = sec.q / totalQ;
+      const secTarget= Math.round(bestN * ratio);
+      const secTime  = Math.round(timeMin * ratio);
+      const bar      = Math.min(100, (secTarget/sec.q*100)).toFixed(0);
+      return `<div style="padding:0.65rem 0.9rem;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;">
+          <span style="font-size:0.78rem;font-weight:600;color:var(--text-white);">${sec.name}</span>
+          <span style="font-size:0.78rem;font-weight:700;color:#1D4ED8;">${secTarget}/${sec.q} · ~${secTime} min</span>
+        </div>
+        <div style="height:5px;background:#E2E8F0;border-radius:3px;overflow:hidden;">
+          <div style="height:100%;width:${bar}%;background:linear-gradient(90deg,#1D4ED8,#10B981);border-radius:3px;"></div>
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    secContainer.innerHTML = `<div style="font-size:0.78rem;color:var(--text-dim);padding:0.5rem 0;">Enter a specific exam above to see section-wise targets.</div>`;
+  }
+
+  // ── Tips ──
+  const accuracyStatus = acc*100 >= 80 ? '🟢 High accuracy' : acc*100 >= 60 ? '🟡 Moderate accuracy' : '🔴 Low accuracy';
+  const timeStatus     = tpq <= 45 ? '⚡ Fast' : tpq <= 75 ? '🕐 Average pace' : '🐢 Slow pace';
+  const skipped        = total - bestN;
+  document.getElementById('as2_tips').innerHTML =
+    `<strong>📌 Your Strategy:</strong> Attempt <strong>${bestN} questions</strong>, skip ${skipped}. Your break-even accuracy is <strong>${breakEven}%</strong> — below this, every attempt loses marks.<br>
+    <strong>${accuracyStatus}</strong> · <strong>${timeStatus}</strong> (${tpq}s/question)<br>
+    💡 <em>Tip: ${acc*100 < 70 ? 'Focus on accuracy first — skip difficult questions confidently. More attempts ≠ more marks.' : acc*100 >= 85 ? 'Your accuracy is strong! You can attempt more questions safely.' : 'Balance speed and accuracy. Never guess blindly — it costs you marks.'}</em>`;
+
+  document.getElementById('as2_result').classList.add('show');
+}
+
+// Auto-load pattern info on modal open
+(function() {
+  const _orig = window.openModal;
+  window.openModal = function(id) {
+    _orig(id);
+    if (id === 'attemptStrategy') {
+      setTimeout(() => { as2UpdatePattern(); }, 80);
+    }
+  };
+})();
 
 // RANK VS VACANCY
 const catShare = { gen:0.505, obc:0.27, sc:0.15, st:0.075 };
@@ -4664,6 +5008,47 @@ function toggleFAQ(btn) {
 /* ── CANONICAL + HTTPS ENFORCEMENT (client-side hint) ── */
 if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
   location.replace(location.href.replace('http:', 'https:'));
+}
+
+// ── SHARE FUNCTIONALITY ──
+const SHARE_URL  = 'https://crackcalc.in';
+const SHARE_TEXT = '🎯 CrackCalc — Free calculators for SSC, UPSC & Banking exam prep! Score predictor, salary calculator, study planner & more. 100% free.';
+
+function toggleShareMenu(e) {
+  e.stopPropagation();
+  const dd = document.getElementById('shareDropdown');
+  dd.classList.toggle('open');
+}
+document.addEventListener('click', () => {
+  document.getElementById('shareDropdown')?.classList.remove('open');
+});
+
+function shareWhatsApp() {
+  window.open(`https://wa.me/?text=${encodeURIComponent(SHARE_TEXT + '\n' + SHARE_URL)}`, '_blank');
+  document.getElementById('shareDropdown').classList.remove('open');
+}
+function shareTwitter() {
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`, '_blank');
+  document.getElementById('shareDropdown').classList.remove('open');
+}
+function shareTelegram() {
+  window.open(`https://t.me/share/url?url=${encodeURIComponent(SHARE_URL)}&text=${encodeURIComponent(SHARE_TEXT)}`, '_blank');
+  document.getElementById('shareDropdown').classList.remove('open');
+}
+function copyLink() {
+  navigator.clipboard.writeText(SHARE_URL).then(() => {
+    const label = document.getElementById('copyLinkLabel');
+    label.textContent = '✅ Copied!';
+    setTimeout(() => { label.textContent = 'Copy Link'; }, 2000);
+  });
+}
+function mobileShare() {
+  if (navigator.share) {
+    navigator.share({ title: 'CrackCalc', text: SHARE_TEXT, url: SHARE_URL });
+  } else {
+    // Fallback: WhatsApp
+    window.open(`https://wa.me/?text=${encodeURIComponent(SHARE_TEXT + '\n' + SHARE_URL)}`, '_blank');
+  }
 }
 </script>
 
